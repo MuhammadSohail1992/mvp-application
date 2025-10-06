@@ -1,0 +1,50 @@
+<p-menubar class="bg-[#1c1c1f] text-white border-none p-0">
+  <!-- LEFT -->
+  <ng-template pTemplate="start">
+    <div class="flex items-center gap-8">
+      <span class="w-[50px] cursor-pointer">
+        <img src="https://dev.totalindie.com/assets/images/Total-Indie-Favicon.png" alt="logo">
+      </span>
+      <span class="icon-box cursor-pointer">
+        <i class="pi pi-bars text-neutral-300" style="font-size: 1.2rem"></i>
+      </span>
+    </div>
+  </ng-template>
+
+  <!-- RIGHT -->
+  <ng-template pTemplate="end">
+    <div class="flex flex-row items-center">
+      <div class="flex items-center">
+        <!-- Become an Artist button -->
+        <button
+          class="px-4 py-1.5 text-xs font-semibold bg-emerald-500 hover:bg-emerald-600 rounded-full transition text-white">
+          BECOME AN ARTIST
+        </button>
+
+        <!-- Notification bell -->
+        <div (click)="notifMenu.toggle($event)" class="cursor-pointer relative mx-5">
+          <i class="pi pi-bell text-neutral-500" style="font-size: 1.3rem"></i>
+          <span
+            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+            3
+          </span>
+        </div>
+      </div>
+
+      <!-- Profile -->
+      <div class="flex items-center gap-2 cursor-pointer" (mouseenter)="profileMenu.toggle($event)">
+        <p-avatar
+          image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+          shape="circle" />
+        <div class="hidden sm:block">
+          <h5 class="m-0 text-neutral-300 font-semibold text-xl text-[#f6f6f6]">Muhammad</h5>
+          <h6 class="text-gray-400 my-0 text-[#cacaca] text-base">Music Lover</h6>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-menubar>
+
+<!-- Menus outside menubar -->
+<p-menu #notifMenu [model]="notificationItems" [popup]="true" appendTo="body"></p-menu>
+<p-menu #profileMenu [model]="profileItems" [popup]="true" appendTo="body"></p-menu>
