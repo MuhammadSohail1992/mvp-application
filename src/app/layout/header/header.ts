@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { Ripple } from 'primeng/ripple';
 import { Menubar } from 'primeng/menubar';
 import { Menu } from 'primeng/menu';
+import { Notification } from '../../utils/interfaces/notificationsInterface';
 
 @Component({
   selector: 'app-header',
@@ -23,10 +24,13 @@ import { Menu } from 'primeng/menu';
 })
 export class Header {
 
+  userFirstName: string = 'Muhammad Sohail';
+  userType: string = 'Music Lover';
+
   notificationItems: MenuItem[] = [
-    { label: 'New comment on your post', icon: 'pi pi-comment' },
-    { label: 'New follower', icon: 'pi pi-user-plus' },
-    { label: 'Server downtime alert', icon: 'pi pi-exclamation-triangle' },
+    { label: 'New comment on your post', url: '/', notifcationDate: '24/3/2025', notificationTime: '10:30 PM'},
+    { label: 'New follower', url: '/', notifcationDate: '24/3/2025', notificationTime: '10:30 PM'},
+    { label: 'Server downtime alert', url: '/', notifcationDate: '24/3/2025', notificationTime: '10:30 PM' },
   ];
 
   profileItems: MenuItem[] = [
