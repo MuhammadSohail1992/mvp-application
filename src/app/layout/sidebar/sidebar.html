@@ -1,1 +1,19 @@
-<p>sidebar works!</p>
+<!-- Sidebar -->
+<aside class="w-64 p-4 flex flex-col h-[calc(100vh-85px)] side-menu">
+  <!-- Navigation -->
+  <p-panelMenu
+    [model]="menuItems"
+    class="side-menu-items bg-transparent"
+  ></p-panelMenu>
+
+  <!-- Bottom Profile Section -->
+  <div class="mt-auto pt-6 border-t border-gray-700">
+    <div class="flex items-center gap-3">
+      <img src="assets/images/profile.jpg" alt="User" class="w-10 h-10 rounded-full" />
+      <div>
+        <p class="font-semibold text-sm">John Doe</p>
+        <p class="text-xs text-gray-400">Admin</p>
+      </div>
+    </div>
+  </div>
+</aside>

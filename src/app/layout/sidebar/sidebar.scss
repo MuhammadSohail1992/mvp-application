@@ -1,0 +1,42 @@
+.side-menu {
+  background: linear-gradient(90deg, rgb(36, 36, 36) 100%, rgb(24, 24, 24) 100%);
+  width: 240px;
+  z-index: 1001;
+//   background: #ffffff;
+  bottom: 15px;
+  left: 15px;
+  margin-top: 0;
+  position: fixed;
+  top: 70px;
+  box-shadow: 0 0.75rem 1.5rem #12263f08;
+  border-radius: 10px;
+}
+
+:host ::ng-deep .side-menu-items {
+    gap: 0;
+    .p-panelmenu {
+        
+    }
+    .p-panelmenu-header-content {
+        border-radius: 0px;
+        &:hover,
+        &:focus,
+        &:active {
+            background-color: #2d2d2d;
+        }
+    }
+    .p-panelmenu-panel {
+        background-color: transparent;
+        padding: 0px;
+        gap: none;
+        border-radius: 0px;
+        border: none;
+        .p-panelmenu-header-link {
+            color: #cacaca;
+            svg {
+                color: #cacaca;
+                fill: #cacaca;
+            }
+        }
+    }
+}

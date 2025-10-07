@@ -180,14 +180,19 @@
   }
 </style>
 
-<main class="main">
+<main class="main pt-0">
   <app-header />
-  <div class="content bg-dark">
+  <div class="flex text-white">
+    <app-sidebar></app-sidebar>
+
+    <app-main-layout></app-main-layout>
+  </div>
+  <!-- <div class="content bg-dark">
     <p-button label="Click Me" class="" />
     <div class="bg-blue-500 text-white p-8 text-center">
       <h1 class="text-4xl font-light">Tailwind v4 Test</h1>
     </div>
-  </div>
+  </div> -->
 </main>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
