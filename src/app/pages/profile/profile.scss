@@ -1,0 +1,76 @@
+:host ::ng-deep .p-card {
+  border-radius: 0;
+}
+/* ---------- PRIME CARD ---------- */
+:host ::ng-deep .p-card {
+  border-radius: 0 !important;
+  background-color: #111111 !important;
+  color: #fff !important;
+
+  img {
+    z-index: 1000;
+  }
+}
+
+/* ---------- TABMENU (VERTICAL) ---------- */
+:host ::ng-deep .p-tabmenu {
+  background: transparent !important;
+  border: none !important;
+}
+
+:host ::ng-deep .p-tabmenu-nav {
+  flex-direction: column !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  gap: 0.25rem !important;
+}
+
+:host ::ng-deep .p-tabmenuitem {
+  border-left: 3px solid transparent !important;
+  background: transparent !important;
+  color: #d1d5db !important;
+  padding: 0.6rem 1rem !important;
+  transition: all 0.2s ease;
+}
+
+:host ::ng-deep .p-tabmenuitem:hover {
+  color: #14b8a6 !important;
+}
+
+:host ::ng-deep .p-tabmenuitem.p-highlight {
+  border-left: 3px solid #14b8a6 !important;
+  color: #14b8a6 !important;
+  background-color: #1c1c1c !important;
+}
+
+/* ---------- TABVIEW (HORIZONTAL) ---------- */
+:host ::ng-deep .p-tabview-nav {
+  border-bottom: 1px solid #1f2937 !important;
+  margin-bottom: 1rem !important;
+  background: transparent !important;
+}
+
+:host ::ng-deep .p-tabview-nav-link {
+  color: #9ca3af !important;
+  border: none !important;
+  background: transparent !important;
+  font-weight: 500 !important;
+}
+
+:host ::ng-deep .p-tabview-nav-link:hover {
+  color: #14b8a6 !important;
+}
+
+:host ::ng-deep .p-tabview-nav .p-highlight .p-tabview-nav-link {
+  color: #14b8a6 !important;
+  border-bottom: 2px solid #14b8a6 !important;
+  font-weight: 600 !important;
+}
+
+/* ---------- TAB CONTENT ---------- */
+:host ::ng-deep .p-tabview-panels {
+  background: transparent !important;
+  color: #d1d5db !important;
+  padding: 0 !important;
+}

@@ -2,7 +2,7 @@
   background: linear-gradient(90deg, rgb(36, 36, 36) 100%, rgb(24, 24, 24) 100%);
   width: 240px;
   z-index: 1001;
-//   background: #ffffff;
+  //   background: #ffffff;
   bottom: 15px;
   left: 15px;
   margin-top: 0;
@@ -13,30 +13,47 @@
 }
 
 :host ::ng-deep .side-menu-items {
-    gap: 0;
-    .p-panelmenu {
-        
+  gap: 0;
+  .p-panelmenu {
+  }
+  .p-panelmenu-item {
+  }
+
+  .p-panelmenu-panel {
+    background-color: transparent;
+    padding: 0px;
+    gap: none;
+    border-radius: 0px;
+    border: none;
+  }
+  .p-panelmenu-header-link,
+  .p-panelmenu-item-link {
+    color: #cacaca;
+    svg {
+      order: 2; /* move arrow to end */
+      margin-left: auto; /* push it right */
+      margin-right: 0 !important;
     }
-    .p-panelmenu-header-content {
-        border-radius: 0px;
-        &:hover,
-        &:focus,
-        &:active {
-            background-color: #2d2d2d;
-        }
+    .p-panelmenu-header-icon,
+    .p-panelmenu-item-icon {
+      color: #cacaca;
+      fill: #cacaca;
     }
-    .p-panelmenu-panel {
-        background-color: transparent;
-        padding: 0px;
-        gap: none;
-        border-radius: 0px;
-        border: none;
-        .p-panelmenu-header-link {
-            color: #cacaca;
-            svg {
-                color: #cacaca;
-                fill: #cacaca;
-            }
-        }
+  }
+
+  .p-panelmenu-header-content,
+  .p-panelmenu-item-content {
+    border-radius: 0px;
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: #2d2d2d;
+      color: #cacaca;
+      .p-panelmenu-header-icon,
+      .p-panelmenu-item-icon {
+        color: #cacaca;
+        fill: #cacaca;
+      }
     }
+  }
 }

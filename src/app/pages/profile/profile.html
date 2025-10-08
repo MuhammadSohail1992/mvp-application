@@ -1,24 +1,115 @@
-<div class="min-h-screen bg-gray-900 text-white">
+<div class="min-h-screen">
   <!-- Cover Image -->
   <div
-    class="relative w-full h-64 bg-cover bg-center"
-    style="background-image: url('/assets/cover.jpg')"
+    class="relative w-full h-[35vh] rounded-3xl bg-cover bg-center"
+    style="
+      background-image: url('https://dqwrqt1d58pxz.cloudfront.net/images/75acb547-649a-4cd0-8ece-2d4ff34548b9.jpeg');
+    "
   >
-    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-      <h1 class="text-3xl md:text-4xl font-semibold text-white text-center">
-        BECAUSE YOUR MUSIC DESERVES MORE
-      </h1>
+    <!-- <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+      
+    </div> -->
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-0 px-4">
+    <!-- LEFT: Profile Card -->
+    <div class="col-span-1">
+      <p-card
+        class="bg-[#111111] border-none shadow-lg overflow-hidden rounded-none text-white"
+        styleClass="w-full overflow-visible"
+      >
+        <div class="flex flex-col items-center py-6">
+          <!-- Profile Image -->
+          <div class="relative -mt-24 w-[175px]">
+            <img
+              src="https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg"
+              alt="Profile"
+              class="w-[175px] h-[175px] rounded-full border-4 border-gray-700 object-cover"
+            />
+            <button
+              pButton
+              icon="pi pi-info-circle"
+              class="absolute bottom-0 left-0 bg-gray-700 text-white rounded-full p-2"
+            ></button>
+            <button
+              pButton
+              class="absolute bottom-0 right-0 bg-gray-700 text-white rounded-full p-2"
+            >
+            <i class="pi pi-camera" style="font-size: 1.5rem"></i>
+          </button>
+          </div>
+
+          <h2 class="text-lg font-semibold mt-3">{{userName}}</h2>
+
+          <div class="mt-4 w-[100%]">
+            <h3 class="text-teal-400 font-medium">Artist Type:</h3>
+            <p class="text-gray-300">Band</p>
+          </div>
+
+          <div class="mt-3 w-[100%]">
+            <h3 class="text-teal-400 font-medium">Genres:</h3>
+            <p class="text-gray-300">Bluegrass, Country</p>
+          </div>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- RIGHT: Tab Layout -->
+    <div class="col-span-2">
+      <!-- Top Bar -->
+      <div class="flex justify-end gap-3 mb-4">
+        <button
+          pButton
+          label="Add/Upload"
+          icon="pi pi-upload"
+          class="p-button-sm bg-teal-500 border-none hover:bg-teal-600 text-white"
+        ></button>
+        <button
+          pButton
+          label="Edit Profile"
+          icon="pi pi-pencil"
+          class="p-button-sm p-button-outlined p-button-info"
+        ></button>
+      </div>
+
+      <div class="flex bg-[#111111] rounded-none shadow-md overflow-hidden text-white">
+        <!-- Vertical Tabs -->
+        <!-- <div class="w-40 border-r border-gray-800">
+          <p-tabMenu
+            [model]="verticalTabs"
+            [activeItem]="activeVertical"
+            class="flex flex-col space-y-1"
+            [style]="{ flexDirection: 'column' }"
+          ></p-tabMenu>
+        </div> -->
+
+        <!-- Horizontal Tabs Content -->
+        <div class="flex-1 p-4">
+          <!-- <p-tabView [(activeIndex)]="activeTabIndex" class="dark-tabview">
+            <p-tabPanel header="Releases">
+              <p class="text-gray-300">No Record Found</p>
+            </p-tabPanel>
+
+            <p-tabPanel header="Singles">
+              <p class="text-gray-300">No Record Found</p>
+            </p-tabPanel>
+
+            <p-tabPanel header="EP’s">
+              <p class="text-gray-300">No Record Found</p>
+            </p-tabPanel>
+
+            <p-tabPanel header="Albums">
+              <p class="text-gray-300">No Record Found</p>
+            </p-tabPanel>
+          </p-tabView> -->
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Profile Section -->
-  <div class="container mx-auto px-6 md:px-12 py-10 grid grid-cols-1 md:grid-cols-2 gap-8">
-    <!-- Left Column -->
-    <div>
-      <p-card
-        class="bg-gray-800 border-none shadow-lg rounded-2xl overflow-hidden"
-        styleClass="w-full"
-      >
+  <!-- <div class="container-fluid mx-auto px-6 md:px-2 py-0 grid grid-cols-1 md:grid-cols-2 gap-8">\
+    <div class="">
+      <p-card class="bg-gray-800 border-none shadow-lg overflow-hidden" styleClass="w-full">
         <div class="flex flex-col items-center py-6">
           <div class="relative">
             <img
@@ -32,14 +123,11 @@
               class="absolute bottom-0 right-0 bg-gray-700 text-white rounded-full p-2"
             ></button>
           </div>
-
           <h2 class="text-2xl font-semibold mt-4">Muhammad</h2>
-
           <div class="mt-4 text-center">
             <h3 class="text-teal-400 font-medium">Genres:</h3>
             <p class="text-gray-300">Ambient, Country, EDM, New Age</p>
           </div>
-
           <div class="mt-6 text-center">
             <h3 class="text-teal-400 font-medium">Profile Intro:</h3>
             <p class="text-gray-300">Profile Status Check for introduction</p>
@@ -47,8 +135,7 @@
         </div>
       </p-card>
     </div>
-
-    <!-- Right Column -->
+    
     <div class="flex justify-center md:justify-end items-start pt-6">
       <button
         pButton
@@ -57,5 +144,5 @@
         class="p-button-rounded p-button-outlined p-button-info"
       ></button>
     </div>
-  </div>
+  </div> -->
 </div>
