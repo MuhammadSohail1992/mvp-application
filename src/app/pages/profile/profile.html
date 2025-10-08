@@ -1,17 +1,13 @@
-<div class="min-h-screen">
+<div class="">
   <!-- Cover Image -->
   <div
     class="relative w-full h-[35vh] rounded-3xl bg-cover bg-center"
     style="
       background-image: url('https://dqwrqt1d58pxz.cloudfront.net/images/75acb547-649a-4cd0-8ece-2d4ff34548b9.jpeg');
     "
-  >
-    <!-- <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-      
-    </div> -->
-  </div>
+  ></div>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-0 px-4">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-0 px-4 h-[50vh]">
     <!-- LEFT: Profile Card -->
     <div class="col-span-1">
       <p-card
@@ -35,11 +31,11 @@
               pButton
               class="absolute bottom-0 right-0 bg-gray-700 text-white rounded-full p-2"
             >
-            <i class="pi pi-camera" style="font-size: 1.5rem"></i>
-          </button>
+              <i class="pi pi-camera" style="font-size: 1.5rem"></i>
+            </button>
           </div>
 
-          <h2 class="text-lg font-semibold mt-3">{{userName}}</h2>
+          <h2 class="text-lg font-semibold mt-3">{{ userName }}</h2>
 
           <div class="mt-4 w-[100%]">
             <h3 class="text-teal-400 font-medium">Artist Type:</h3>
@@ -56,93 +52,41 @@
 
     <!-- RIGHT: Tab Layout -->
     <div class="col-span-2">
-      <!-- Top Bar -->
-      <div class="flex justify-end gap-3 mb-4">
+      <div class="flex justify-end items-center gap-3 px-6 py-4">
         <button
-          pButton
-          label="Add/Upload"
-          icon="pi pi-upload"
-          class="p-button-sm bg-teal-500 border-none hover:bg-teal-600 text-white"
-        ></button>
+          class="flex items-center gap-2 bg-teal-500 hover:bg-teal-600 px-6 py-2 rounded-full font-semibold text-sm transition color-[#000000]"
+        >
+          Add/Upload
+          <i class="pi pi-upload text-sm"></i>
+        </button>
+
         <button
-          pButton
-          label="Edit Profile"
-          icon="pi pi-pencil"
-          class="p-button-sm p-button-outlined p-button-info"
-        ></button>
+          class="flex items-center gap-2 bg-transparent hover:bg-gray-800 text-white px-6 py-2 rounded-full font-semibold text-sm transition border border-gray-600"
+        >
+          Edit Profile
+          <i class="pi pi-pencil text-sm"></i>
+        </button>
       </div>
 
-      <div class="flex bg-[#111111] rounded-none shadow-md overflow-hidden text-white">
+      <div class="bg-none rounded-none overflow-hidden text-white w-full">
         <!-- Vertical Tabs -->
-        <!-- <div class="w-40 border-r border-gray-800">
-          <p-tabMenu
-            [model]="verticalTabs"
-            [activeItem]="activeVertical"
-            class="flex flex-col space-y-1"
-            [style]="{ flexDirection: 'column' }"
-          ></p-tabMenu>
-        </div> -->
-
-        <!-- Horizontal Tabs Content -->
-        <div class="flex-1 p-4">
-          <!-- <p-tabView [(activeIndex)]="activeTabIndex" class="dark-tabview">
-            <p-tabPanel header="Releases">
-              <p class="text-gray-300">No Record Found</p>
-            </p-tabPanel>
-
-            <p-tabPanel header="Singles">
-              <p class="text-gray-300">No Record Found</p>
-            </p-tabPanel>
-
-            <p-tabPanel header="EP’s">
-              <p class="text-gray-300">No Record Found</p>
-            </p-tabPanel>
-
-            <p-tabPanel header="Albums">
-              <p class="text-gray-300">No Record Found</p>
-            </p-tabPanel>
-          </p-tabView> -->
+        <div class="vertical-tabs" style="width: 100%">
+          <p-tabs [(value)]="activeIndex">
+            <p-tablist class="custom-tab-bar">
+              @for (tab of tabs; track tab.value) {
+              <p-tab [value]="tab.value">{{ tab.title }}</p-tab>
+              }
+            </p-tablist>
+            <p-tabpanels styleClass="">
+              @for (tab of tabs; track tab.value) {
+              <p-tabpanel [value]="tab.value">
+                <p class="m-0">{{ tab.content }}</p>
+              </p-tabpanel>
+              }
+            </p-tabpanels>
+          </p-tabs>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- <div class="container-fluid mx-auto px-6 md:px-2 py-0 grid grid-cols-1 md:grid-cols-2 gap-8">\
-    <div class="">
-      <p-card class="bg-gray-800 border-none shadow-lg overflow-hidden" styleClass="w-full">
-        <div class="flex flex-col items-center py-6">
-          <div class="relative">
-            <img
-              src="/assets/profile.jpg"
-              alt="Profile"
-              class="w-32 h-32 rounded-full border-4 border-gray-700"
-            />
-            <button
-              pButton
-              icon="pi pi-camera"
-              class="absolute bottom-0 right-0 bg-gray-700 text-white rounded-full p-2"
-            ></button>
-          </div>
-          <h2 class="text-2xl font-semibold mt-4">Muhammad</h2>
-          <div class="mt-4 text-center">
-            <h3 class="text-teal-400 font-medium">Genres:</h3>
-            <p class="text-gray-300">Ambient, Country, EDM, New Age</p>
-          </div>
-          <div class="mt-6 text-center">
-            <h3 class="text-teal-400 font-medium">Profile Intro:</h3>
-            <p class="text-gray-300">Profile Status Check for introduction</p>
-          </div>
-        </div>
-      </p-card>
-    </div>
-    
-    <div class="flex justify-center md:justify-end items-start pt-6">
-      <button
-        pButton
-        label="Edit Profile"
-        icon="pi pi-pencil"
-        class="p-button-rounded p-button-outlined p-button-info"
-      ></button>
-    </div>
-  </div> -->
 </div>

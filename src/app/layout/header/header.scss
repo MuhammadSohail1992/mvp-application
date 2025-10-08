@@ -8,13 +8,37 @@
   border: none;
   background: transparent;
   padding: 0px;
+  // position: fixed;
+  // top: 0px;
+  // width: 100%;
+  // z-index: 100;
 }
 
 ::ng-deep .p-menu {
-    background-color: #2a3042;
+    background-color: #2d2d2d;
+    border: none;
+    border-radius: 0px;
+
+    .p-menu-item-content {
+      color: #c4c4c4;
+      font-weight: 600;
+      .p-menu-item-link {
+        justify-content: center;
+      }
+      .p-menu-item-icon {
+        color: #c4c4c4;
+      }
+      &:hover {
+        background-color: transparent !important;
+        color: #29ba99 !important;
+        .p-menu-item-icon {
+           color: #29ba99 !important;
+        }
+      }
+    }
 }
 
-.notificationMenu {
+::ng-deep .notificationMenu {
   left: auto !important;
   right: 200px !important; // Adjust as needed for your layout
   min-width: 350px;

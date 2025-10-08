@@ -24,7 +24,7 @@ import { Notification } from '../../utils/interfaces/notificationsInterface';
 })
 export class Header {
 
-  userFirstName: string = 'Muhammad Sohail';
+  userFirstName: string = 'Muhammad';
   userType: string = 'Music Lover';
 
   notificationItems: MenuItem[] = [
