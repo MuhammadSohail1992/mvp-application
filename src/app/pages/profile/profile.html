@@ -1,1 +1,61 @@
-<p>profile works!</p>
+<div class="min-h-screen bg-gray-900 text-white">
+  <!-- Cover Image -->
+  <div
+    class="relative w-full h-64 bg-cover bg-center"
+    style="background-image: url('/assets/cover.jpg')"
+  >
+    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+      <h1 class="text-3xl md:text-4xl font-semibold text-white text-center">
+        BECAUSE YOUR MUSIC DESERVES MORE
+      </h1>
+    </div>
+  </div>
+
+  <!-- Profile Section -->
+  <div class="container mx-auto px-6 md:px-12 py-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+    <!-- Left Column -->
+    <div>
+      <p-card
+        class="bg-gray-800 border-none shadow-lg rounded-2xl overflow-hidden"
+        styleClass="w-full"
+      >
+        <div class="flex flex-col items-center py-6">
+          <div class="relative">
+            <img
+              src="/assets/profile.jpg"
+              alt="Profile"
+              class="w-32 h-32 rounded-full border-4 border-gray-700"
+            />
+            <button
+              pButton
+              icon="pi pi-camera"
+              class="absolute bottom-0 right-0 bg-gray-700 text-white rounded-full p-2"
+            ></button>
+          </div>
+
+          <h2 class="text-2xl font-semibold mt-4">Muhammad</h2>
+
+          <div class="mt-4 text-center">
+            <h3 class="text-teal-400 font-medium">Genres:</h3>
+            <p class="text-gray-300">Ambient, Country, EDM, New Age</p>
+          </div>
+
+          <div class="mt-6 text-center">
+            <h3 class="text-teal-400 font-medium">Profile Intro:</h3>
+            <p class="text-gray-300">Profile Status Check for introduction</p>
+          </div>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Right Column -->
+    <div class="flex justify-center md:justify-end items-start pt-6">
+      <button
+        pButton
+        label="Edit Profile"
+        icon="pi pi-pencil"
+        class="p-button-rounded p-button-outlined p-button-info"
+      ></button>
+    </div>
+  </div>
+</div>

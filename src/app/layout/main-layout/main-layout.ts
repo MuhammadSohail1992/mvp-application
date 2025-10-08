@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { Discover } from '../../pages/discover/discover';
+import { Footer } from '../footer/footer';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-main-layout',
-  imports: [Discover],
+  imports: [RouterOutlet, Footer],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss'
 })
