@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { Ripple } from 'primeng/ripple';
 import { Menubar } from 'primeng/menubar';
 import { Menu } from 'primeng/menu';
+import { LoginApi } from '../../services/login-api';
 import { Notification } from '../../utils/interfaces/notificationsInterface';
 
 @Component({
@@ -23,14 +24,39 @@ import { Notification } from '../../utils/interfaces/notificationsInterface';
   ],
 })
 export class Header {
-
+  user: any = null;
   userFirstName: string = 'Muhammad';
   userType: string = 'Music Lover';
 
+  constructor(private auth: LoginApi) {}
+
+  ngOnInit() {
+    this.user = this.auth.getUser();
+    console.log(this.user);
+  }
+
+  logout() {
+    this.auth.logout();
+  }
+
+  consoleLog() {
+    
+  }
+
   notificationItems: MenuItem[] = [
-    { label: 'New comment on your post', url: '/', notifcationDate: '24/3/2025', notificationTime: '10:30 PM'},
-    { label: 'New follower', url: '/', notifcationDate: '24/3/2025', notificationTime: '10:30 PM'},
-    { label: 'Server downtime alert', url: '/', notifcationDate: '24/3/2025', notificationTime: '10:30 PM' },
+    {
+      label: 'New comment on your post',
+      url: '/',
+      notifcationDate: '24/3/2025',
+      notificationTime: '10:30 PM',
+    },
+    { label: 'New follower', url: '/', notifcationDate: '24/3/2025', notificationTime: '10:30 PM' },
+    {
+      label: 'Server downtime alert',
+      url: '/',
+      notifcationDate: '24/3/2025',
+      notificationTime: '10:30 PM',
+    },
   ];
 
   profileItems: MenuItem[] = [

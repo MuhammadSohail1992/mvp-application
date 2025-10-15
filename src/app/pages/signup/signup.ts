@@ -6,7 +6,7 @@ import { FloatLabel } from 'primeng/floatlabel';
 import { InputText } from 'primeng/inputtext';
 import { Password } from 'primeng/password';
 import { Button } from 'primeng/button';
-// import { Dropdown } from 'primeng/themes/dropdown';
+// import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-signup',
@@ -17,12 +17,10 @@ import { Button } from 'primeng/button';
     RouterLink,
     FloatLabel,
     InputText,
-    Password,
-    Button,
-    // Dropdown,
+    Password
   ],
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss'],
+  templateUrl: './signup.html',
+  styleUrl: './signup.scss',
 })
 export class Signup {
   firstName: string = '';

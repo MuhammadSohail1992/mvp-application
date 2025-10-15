@@ -1,13 +1,20 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
+import { LoginApi } from './services/login-api';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, ButtonModule],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App {
   protected readonly title = signal('mvp-application');
+
+  constructor(private auth: LoginApi) {
+    if (this.auth.getToken()) {
+      console.log('User already logged in');
+    }
+  }
 }
