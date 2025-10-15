@@ -1,0 +1,81 @@
+:host ::ng-deep {
+  .p-float-label label {
+    color: #9ca3af;
+    left: 0.75rem;
+  }
+
+  .p-float-label input:focus ~ label,
+  .p-float-label input.p-filled ~ label,
+  .p-float-label .p-inputwrapper-focus ~ label,
+  .p-float-label .p-inputwrapper-filled ~ label {
+    top: -0.5rem;
+    font-size: 12px;
+    color: #14b8a6;
+    background: #1a1a1a;
+    padding: 0 0.25rem;
+  }
+
+  .p-inputtext:enabled:focus {
+    box-shadow: none;
+    border-color: #14b8a6;
+  }
+
+  .p-password {
+    width: 100%;
+  }
+
+  .p-password-input {
+    width: 100%;
+  }
+
+  .p-button {
+    background: #4a4a4a;
+    border: none;
+    padding: 0.75rem;
+    font-weight: 600;
+  }
+
+  .p-button:hover {
+    background: #5a5a5a !important;
+  }
+
+  // Dropdown styles
+  .p-dropdown {
+    background: #2a2a2a;
+    border: none;
+    color: white;
+  }
+
+  .p-dropdown:not(.p-disabled):hover {
+    border-color: #14b8a6;
+  }
+
+  .p-dropdown:not(.p-disabled).p-focus {
+    box-shadow: none;
+    border-color: #14b8a6;
+  }
+
+  .p-dropdown-panel {
+    background: #2a2a2a;
+    color: white;
+  }
+
+  .p-dropdown-item {
+    color: white;
+
+    &:hover {
+      background: #3a3a3a;
+    }
+  }
+
+  .p-dropdown-item.p-highlight {
+    background: #14b8a6;
+    color: white;
+  }
+
+  // Radio button custom styles
+  input[type='radio'] {
+    accent-color: #14b8a6;
+    cursor: pointer;
+  }
+}

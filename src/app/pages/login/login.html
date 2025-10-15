@@ -1,0 +1,89 @@
+<div class="min-h-screen bg-[#1a1a1a] flex items-center justify-center px-4">
+  <div class="w-full max-w-md">
+    <!-- Logo -->
+    <div class="flex justify-center mb-8">
+      <img
+        src="https://dev.totalindie.com/assets/images/Total-Indie-Favicon.png"
+        alt="Total Indie Logo"
+        class="w-20 h-20"
+      />
+    </div>
+
+    <!-- Title -->
+    <h1 class="text-white text-center text-xl font-medium mb-8">
+      Sell Your Music And So Much More With Total Indie
+    </h1>
+
+    <!-- Login Form -->
+    <div class="space-y-9">
+      <!-- Email Field -->
+      <p-floatlabel>
+        <input
+          pInputText
+          id="email"
+          [(ngModel)]="email"
+          class="w-full bg-[#2a2a2a] border-none text-white p-3 rounded"
+        />
+        <label for="email" class="text-gray-400">Enter Email*</label>
+      </p-floatlabel>
+
+      <!-- Password Field -->
+      <div class="relative mb-10">
+        <p-floatlabel>
+          <p-password
+            id="password"
+            [(ngModel)]="password"
+            [feedback]="false"
+            [toggleMask]="true"
+            styleClass="w-full"
+            inputStyleClass="w-full bg-[#2a2a2a] border-none text-white p-3 rounded"
+          />
+          <label for="password" class="text-gray-400">Enter Password*</label>
+        </p-floatlabel>
+        <a
+          href="#"
+          class="absolute right-0 -bottom-6 text-gray-400 text-sm hover:text-white transition"
+        >
+          Forgot Password?
+        </a>
+      </div>
+
+      <!-- Sign In Button -->
+      <button
+        pButton
+        label="Sign In"
+        class="w-full bg-gray-700 hover:bg-gray-600 text-white py-3 rounded transition"
+        (click)="onSignIn()"
+      >
+        Sign In
+      </button>
+
+      <!-- Sign Up Link -->
+      <p class="text-center text-gray-400 text-sm">
+        Don't have an account?
+        <a href="#" class="text-white hover:text-teal-400 transition ml-1">Sign Up</a>
+      </p>
+    </div>
+
+    <!-- Mobile App Section -->
+    <div class="mt-12 text-center">
+      <h3 class="text-white font-semibold mb-4">Mobile App Available</h3>
+      <div class="flex justify-center gap-3">
+        <a href="#" class="inline-block">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
+            alt="App Store"
+            class="h-10"
+          />
+        </a>
+        <a href="#" class="inline-block">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+            alt="Google Play"
+            class="h-10"
+          />
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

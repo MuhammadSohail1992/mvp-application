@@ -1,6 +1,22 @@
 <!-- Main Content Area -->
-<main class="flex-1 p-6 overflow-y-auto app-container">
-  <!-- <app-discover></app-discover> -->
-   <router-outlet></router-outlet>
-  <app-footer></app-footer>
+<main class="main pt-0">
+  <app-header />
+  <div class="flex text-white">
+    <div class="flex-1 p-6 overflow-y-auto app-container">
+        <app-sidebar></app-sidebar>
+        <router-outlet></router-outlet>
+        <app-footer></app-footer>
+    </div>
+  </div>
 </main>
+
+<!-- <div class="flex text-white">
+  <main class="flex-1 p-6 overflow-y-auto app-container">
+    <app-header />
+    <div class="flex text-white">
+      <app-sidebar></app-sidebar>
+      <router-outlet></router-outlet>
+      <app-footer></app-footer>
+    </div>
+  </main>
+</div> -->
