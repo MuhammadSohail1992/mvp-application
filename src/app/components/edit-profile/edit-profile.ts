@@ -21,7 +21,7 @@ import { PhoneInputComponent } from '../../shared/phone-input/phone-input';
     MultiSelect,
     DatePicker,
     Editor,
-    // PhoneInputComponent
+    PhoneInputComponent
   ],
   templateUrl: './edit-profile.html',
   styleUrl: './edit-profile.scss',

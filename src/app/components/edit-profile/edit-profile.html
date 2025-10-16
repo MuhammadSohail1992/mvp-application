@@ -43,25 +43,27 @@
               </p-floatlabel>
             </div>
 
-            <!-- Email -->
-            <div class="mb-8">
-              <p-floatlabel class="mb-4">
-                <input
-                  pInputText
-                  id="email"
-                  [(ngModel)]="email"
-                  name="email"
-                  type="email"
-                  class="w-full bg-[#1a1a1a] border border-gray-600 text-white p-3 rounded"
-                />
-                <label for="email" class="">Email *</label>
-              </p-floatlabel>
-            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <!-- Email -->
+              <div class="mb-8">
+                <p-floatlabel class="mb-4">
+                  <input
+                    pInputText
+                    id="email"
+                    [(ngModel)]="email"
+                    name="email"
+                    type="email"
+                    class="w-full bg-[#1a1a1a] border border-gray-600 text-white p-3 rounded"
+                  />
+                  <label for="email" class="">Email *</label>
+                </p-floatlabel>
+              </div>
 
-            <!-- Phone Number (Your custom component) -->
-            <!-- <div class="mb-4">
-              <app-phone-input [(value)]="phoneNumber" [label]="'Phone Number *'"></app-phone-input>
-            </div> -->
+              <!-- Phone Number (Your custom component) -->
+              <div class="mb-4">
+                <app-phone-input></app-phone-input>
+              </div>
+            </div>
 
             <!-- Artist Name, DOB, Gender Row -->
             <div class="grid grid-cols-3 gap-4">
