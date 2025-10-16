@@ -25,23 +25,68 @@ import { Notification } from '../../utils/interfaces/notificationsInterface';
 })
 export class Header {
   user: any = null;
-  userFirstName: string = 'Muhammad';
-  userType: string = 'Music Lover';
+  userFirstName: string = '';
+  userType: string = '';
+  profileImageSrc: string = '';
+  profileItems: MenuItem[] = [];
 
   constructor(private auth: LoginApi) {}
 
   ngOnInit() {
-    this.user = this.auth.getUser();
-    console.log(this.user);
+    const userData = this.auth.getUser();
+    console.log(userData);
+    this.user = userData;
+    if (userData) {
+      const formattedName = `${userData.firstName}-${userData.lastName}`.replace(/\s+/g, '-');
+      if (userData?.isArtist) {
+        this.userType = 'Artist';
+      } else if (userData?.isPromoter) {
+        this.userType = 'Promoter';
+      } else {
+        this.userType = 'Music Lover';
+      }
+      this.userFirstName = userData?.firstName || '';
+      this.profileImageSrc = userData?.profileImage || '';
+      this.profileItems = [
+        {
+          label: 'Profile',
+          icon: 'pi pi-user',
+          routerLink: ['/profile/me/releases'],
+          queryParams: { name: formattedName },
+        },
+        { label: 'Promotion', routerLink: '/promotion' },
+        { label: 'Site Pricing', routerLink: '/pricing' },
+        {
+          separator: true,
+        },
+        {
+          label: 'Logout',
+          icon: 'pi pi-sign-out',
+          command: () => {},
+        },
+      ];
+    } else {
+      this.profileItems = [
+        { label: 'Login', routerLink: '/login' },
+        { label: 'Promotion', routerLink: '/promotion' },
+        { label: 'Site Pricing', routerLink: '/pricing' },
+      ];
+    }
   }
 
   logout() {
     this.auth.logout();
   }
 
-  consoleLog() {
-    
-  }
+  // get profileLink(): string {
+  //   if (!this.user) return '/login';
+
+  //   const nameParam = `${this.user.firstName || ''}-${this.user.lastName || ''}`
+  //     .trim()
+  //     .replace(/\s+/g, '-'); // replace spaces with dashes
+
+  //   return `/profile/me/releases?name=${nameParam}`;
+  // }
 
   notificationItems: MenuItem[] = [
     {
@@ -56,33 +101,6 @@ export class Header {
       url: '/',
       notifcationDate: '24/3/2025',
       notificationTime: '10:30 PM',
-    },
-  ];
-
-  profileItems: MenuItem[] = [
-    {
-      label: 'Profile',
-      icon: 'pi pi-user',
-      command: () => {
-        // Navigate to profile
-      },
-    },
-    {
-      label: 'Settings',
-      icon: 'pi pi-cog',
-      command: () => {
-        // Navigate to settings
-      },
-    },
-    {
-      separator: true,
-    },
-    {
-      label: 'Logout',
-      icon: 'pi pi-sign-out',
-      command: () => {
-        // Logout logic
-      },
     },
   ];
 }

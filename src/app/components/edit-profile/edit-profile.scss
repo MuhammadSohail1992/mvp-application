@@ -1,0 +1,196 @@
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+.edit-profile-window {
+  z-index: 1050;
+}
+
+.full-screen-modal .mat-dialog-container {
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  border-radius: 0;
+}
+
+:host ::ng-deep {
+  // Float Label Styling
+  .p-float-label label {
+    color: #cacaca;
+    left: 0.75rem;
+  }
+
+  .p-floatlabel label {
+    color: #cacaca;
+  }
+
+  .p-select-label {
+    color: #cacaca;
+  }
+
+  .p-floatlabel:has(input.p-filled) label,
+  .p-floatlabel:has(textarea.p-filled) label,
+  .p-floatlabel:has(.p-inputwrapper-filled) label {
+    color: #cacaca;
+  }
+
+  .p-float-label input:focus ~ label,
+  .p-float-label input.p-filled ~ label,
+  .p-float-label .p-inputwrapper-focus ~ label,
+  .p-float-label .p-inputwrapper-filled ~ label {
+    top: -0.5rem;
+    font-size: 12px;
+    color: #14b8a6;
+    background: #2a2a2a;
+    // color: #cacaca;
+    padding: 0 0.25rem;
+  }
+
+  .p-inputtext {
+    background-color: #1a1a1a;
+    color: #cacaca;
+  }
+
+  // Input Text
+  .p-inputtext:enabled:focus {
+    box-shadow: none;
+    border-color: #14b8a6;
+  }
+
+  // Dropdown/Select
+  .p-select {
+    background: #1a1a1a;
+    border: 1px solid #4b5563;
+    color: white;
+
+    &:not(.p-disabled):hover {
+      border-color: #14b8a6;
+    }
+
+    &:not(.p-disabled).p-focus {
+      box-shadow: none;
+      border-color: #14b8a6;
+    }
+  }
+
+  .p-select-dropdown {
+    background: #1a1a1a;
+    color: white;
+  }
+
+  .p-select-overlay {
+    background: #1a1a1a;
+    color: white;
+  }
+
+  .p-select-option {
+    color: white;
+
+    &:hover {
+      background: #3a3a3a;
+    }
+  }
+
+  .p-select-option.p-select-option-selected {
+    background: #14b8a6;
+    color: white;
+  }
+
+  // MultiSelect
+  .p-multiselect {
+    background: #1a1a1a;
+    border: 1px solid #4b5563;
+    color: #cacaca;
+
+    &:not(.p-disabled):hover {
+      border-color: #14b8a6;
+    }
+
+    &:not(.p-disabled).p-focus {
+      box-shadow: none;
+      border-color: #14b8a6;
+    }
+  }
+
+  .p-multiselect-overlay {
+    background: #1a1a1a;
+  }
+
+  .p-multiselect-option {
+    color: white;
+
+    &:hover {
+      background: #3a3a3a;
+    }
+  }
+
+  .p-multiselect-option.p-multiselect-option-selected {
+    background: #14b8a6;
+  }
+
+  .p-multiselect-chip {
+    background: #14b8a6;
+    color: white;
+  }
+
+  // DatePicker
+  .p-datepicker {
+    background: #1a1a1a;
+    color: white;
+    border: 1px solid #4b5563;
+
+    &:not(.p-disabled):hover {
+      border-color: #14b8a6;
+    }
+
+    &:not(.p-disabled).p-focus {
+      box-shadow: none;
+      border-color: #14b8a6;
+    }
+  }
+
+  .p-datepicker-panel {
+    background: #1a1a1a;
+    color: white;
+  }
+
+  .p-datepicker-calendar td span {
+    color: white;
+
+    &:hover {
+      background: #3a3a3a;
+    }
+  }
+
+  .p-datepicker-calendar td.p-datepicker-today span {
+    background: #14b8a6;
+    color: white;
+  }
+
+  // Editor
+  .p-editor-container {
+    background: #1a1a1a;
+
+    .p-editor-toolbar {
+      background: #2a2a2a;
+      border-bottom: 1px solid #4b5563;
+    }
+
+    .p-editor-content {
+      background: #1a1a1a;
+      color: white;
+
+      .ql-editor {
+        background: #1a1a1a;
+        color: white;
+      }
+    }
+  }
+}

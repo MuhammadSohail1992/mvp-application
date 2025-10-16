@@ -1,0 +1,28 @@
+<div class="flex flex-col w-full">
+  <div
+    class="flex items-center bg-black text-white rounded-md overflow-hidden border border-gray-700 focus-within:border-blue-500"
+  >
+    <!-- Country dropdown -->
+    <select
+      [(ngModel)]="selectedCountry"
+      (change)="onPhoneChange()"
+      class="bg-black text-white text-sm px-2 py-2 outline-none cursor-pointer border-r border-gray-700 w-24"
+    >
+      <option *ngFor="let country of countries" [ngValue]="country">
+        {{ country.flag }} {{ country.code }}
+      </option>
+    </select>
+
+    <!-- Phone input -->
+    <input
+      [(ngModel)]="phoneNumber"
+      (input)="onPhoneChange()"
+      [placeholder]="placeholder"
+      type="tel"
+      class="flex-1 bg-black text-white text-sm px-3 py-2 outline-none"
+    />
+  </div>
+
+  <!-- Error message -->
+  <p *ngIf="error" class="text-red-500 text-xs mt-1">{{ error }}</p>
+</div>

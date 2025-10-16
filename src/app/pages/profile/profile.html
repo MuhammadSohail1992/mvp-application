@@ -2,9 +2,7 @@
   <!-- Cover Image -->
   <div
     class="relative w-full h-[35vh] rounded-3xl bg-cover bg-center"
-    style="
-      background-image: url('https://dqwrqt1d58pxz.cloudfront.net/images/75acb547-649a-4cd0-8ece-2d4ff34548b9.jpeg');
-    "
+    [style.backgroundImage]="'url(' + (coverImage || defaultCover) + ')'"
   ></div>
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-0 px-4 h-[50vh]">
@@ -18,7 +16,7 @@
           <!-- Profile Image -->
           <div class="relative -mt-24 w-[175px]">
             <img
-              src="https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg"
+              src="{{ user?.profileImage }}"
               alt="Profile"
               class="w-[175px] h-[175px] rounded-full border-4 border-gray-700 object-cover"
             />
@@ -35,17 +33,26 @@
             </button>
           </div>
 
-          <h2 class="text-lg font-semibold mt-3">{{ userName }}</h2>
+          <h2 class="text-lg font-semibold mt-3 text-lg">
+            {{ user?.artistName ? user?.artistName : user?.firstName }}
+          </h2>
 
+          @if (user?.artistType) {
           <div class="mt-4 w-[100%]">
             <h3 class="text-teal-400 font-medium">Artist Type:</h3>
-            <p class="text-gray-300">Band</p>
+            <p class="text-gray-300">{{ user?.artistType }}</p>
           </div>
-
+          } @if (user?.musicSpecialization) {
           <div class="mt-3 w-[100%]">
             <h3 class="text-teal-400 font-medium">Genres:</h3>
-            <p class="text-gray-300">Bluegrass, Country</p>
+            <p class="text-gray-300">{{ user?.musicSpecialization.join(', ') }}</p>
           </div>
+          } @if (user?.profileIntro) {
+          <div class="mt-3 w-[100%]">
+            <h3 class="text-teal-400 font-medium">Profile Introduction:</h3>
+            <div [innerHTML]="user?.profileIntro"></div>
+          </div>
+          }
         </div>
       </p-card>
     </div>
@@ -62,6 +69,7 @@
 
         <button
           class="flex items-center gap-2 bg-transparent hover:bg-gray-800 text-white px-6 py-2 rounded-full font-semibold text-sm transition border border-gray-600"
+          (click)="openEditProfile()"
         >
           Edit Profile
           <i class="pi pi-pencil text-sm"></i>
@@ -90,3 +98,4 @@
     </div>
   </div>
 </div>
+<app-edit-profile *ngIf="isEditOpen" (close)="isEditOpen = false" [user]="user"> </app-edit-profile>

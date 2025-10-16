@@ -1,121 +1,7 @@
-// import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-// import { isPlatformBrowser } from '@angular/common';
-// import { HttpClient } from '@angular/common/http';
-// import { Observable, BehaviorSubject } from 'rxjs';
-// import { tap } from 'rxjs/operators';
-// import { switchMap, catchError } from 'rxjs/operators';
-// import { of, throwError } from 'rxjs';
-
-// @Injectable({
-//   providedIn: 'root',
-// })
-// export class LoginApi {
-//   private baseUrl = 'https://api.totalindie.com/api/v1/auth';
-//   private tokenKey = 'access_token';
-//   private loggedIn: BehaviorSubject<boolean>;
-
-//   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {
-//     this.loggedIn = new BehaviorSubject<boolean>(this.hasToken());
-//   }
-
-//   private isBrowser(): boolean {
-//     return isPlatformBrowser(this.platformId);
-//   }
-
-//   login(credentials: { email: string; password: string }): Observable<any> {
-//     return this.http.post(`${this.baseUrl}/signIn`, credentials).pipe(
-//       switchMap((res: any) => {
-//         console.log('signIn response:', res);
-
-//         if (res?.token && this.isBrowser()) {
-//           localStorage.setItem(this.tokenKey, res.token);
-//           this.loggedIn.next(true);
-
-//           return this.http
-//             .get(`${this.baseUrl}/me`, {
-//               headers: { Authorization: `Bearer ${res.token}` },
-//             })
-//             .pipe(
-//               tap((user: any) => {
-//                 console.log('Fetched user:', user);
-//                 localStorage.setItem('user', JSON.stringify(user));
-//               }),
-//               catchError((err) => {
-//                 console.error('Error fetching /me:', err);
-//                 return throwError(() => err);
-//               })
-//             );
-//         }
-
-//         return of(res);
-//       }),
-//       catchError((err) => {
-//         console.error('Error logging in:', err);
-//         return throwError(() => err);
-//       })
-//     );
-//   }
-
-//   // login(credentials: { email: string; password: string }): Observable<any> {
-//   //   return this.http.post(`${this.baseUrl}/signIn`, credentials).pipe(
-//   //     switchMap((res: any) => {
-//   //       if (res?.token && this.isBrowser()) {
-//   //         localStorage.setItem(this.tokenKey, res.token);
-//   //         this.loggedIn.next(true);
-
-//   //         // Chain the /me request and return it to the subscriber
-//   //         return this.http
-//   //           .get(`${this.baseUrl}/me`, {
-//   //             headers: { Authorization: `Bearer ${res.token}` },
-//   //           })
-//   //           .pipe(
-//   //             tap((user: any) => {
-//   //               localStorage.setItem('user', JSON.stringify(user));
-//   //             })
-//   //           );
-//   //       }
-
-//   //       return of(res); // fallback if no token
-//   //     })
-//   //   );
-//   // }
-
-//   isLoggedIn(): Observable<boolean> {
-//     return this.loggedIn.asObservable();
-//   }
-
-//   getToken(): string | null {
-//     return this.isBrowser() ? localStorage.getItem(this.tokenKey) : null;
-//   }
-
-//   getUser(): any {
-//     if (!this.isBrowser()) return null;
-//     const user = localStorage.getItem('user');
-//     return user ? JSON.parse(user) : null;
-//   }
-
-//   logout(): void {
-//     if (this.isBrowser()) {
-//       localStorage.removeItem(this.tokenKey);
-//     }
-//     this.loggedIn.next(false);
-//   }
-
-//   private hasToken(): boolean {
-//     if (!this.isBrowser()) return false;
-//     return !!localStorage.getItem(this.tokenKey);
-//   }
-
-//   getCurrentUser(): Observable<any> {
-//     return this.http.get(`${this.baseUrl}/me`, {
-//       headers: { Authorization: `Bearer ${this.getToken()}` },
-//     });
-//   }
-// }
-import { Injectable, Inject, PLATFORM_ID, NgZone } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject, of } from 'rxjs';
+import { Observable, BehaviorSubject, of, throwError } from 'rxjs';
 import { switchMap, tap, catchError } from 'rxjs/operators';
 
 @Injectable({
@@ -126,11 +12,7 @@ export class LoginApi {
   private tokenKey = 'access_token';
   private loggedIn: BehaviorSubject<boolean>;
 
-  constructor(
-    private http: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private zone: NgZone
-  ) {
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {
     this.loggedIn = new BehaviorSubject<boolean>(this.hasToken());
   }
 
@@ -142,61 +24,91 @@ export class LoginApi {
     return this.http.post(`${this.baseUrl}/signIn`, credentials).pipe(
       switchMap((res: any) => {
         console.log('SignIn response:', res);
+        console.log('Full SignIn response:', JSON.stringify(res, null, 2));
 
-        if (res?.token && this.isBrowser()) {
-          localStorage.setItem(this.tokenKey, res.token);
+        const token = res?.data?.token || res?.token;
+        console.log('Extracted token:', token);
+
+        if (token) {
+          this.setToken(token);
           this.loggedIn.next(true);
 
           const headers = new HttpHeaders({
-            Authorization: `Bearer ${res.token}`,
+            Authorization: token,
           });
 
-          // ✅ Run inside the browser zone to ensure access to localStorage
-          return new Observable((observer) => {
-            this.zone.run(() => {
-              this.http
-                .get(`${this.baseUrl}/me`, { headers })
-                .pipe(
-                  tap((user: any) => {
-                    console.log('Fetched user:', user);
-                    localStorage.setItem(
-                      'user',
-                      JSON.stringify(user?.data || user)
-                    );
-                  }),
-                  catchError((err) => {
-                    console.error('Error fetching /me:', err);
-                    return of(null);
-                  })
-                )
-                .subscribe({
-                  next: (user) => {
-                    observer.next({ token: res.token, user });
-                    observer.complete();
-                  },
-                  error: (err) => observer.error(err),
-                });
-            });
-          });
+          return this.http.get(`${this.baseUrl}/me`, { headers }).pipe(
+            tap((userData: any) => {
+              console.log('Fetched user:', userData);
+              this.setUser(userData?.data || userData);
+            }),
+            switchMap((userData) => {
+              return of({ token: token, user: userData?.data || userData });
+            }),
+            catchError((err) => {
+              console.error('Error fetching /me:', err);
+              return of({ token: token, user: null });
+            })
+          );
         }
 
-        return of(res);
+        return throwError(() => new Error('No token received'));
       }),
       catchError((err) => {
         console.error('Login error:', err);
-        return of(null);
+        return throwError(() => err);
       })
     );
   }
 
+  private setToken(token: string): void {
+    if (this.isBrowser()) {
+      try {
+        localStorage.setItem(this.tokenKey, token);
+      } catch (e) {
+        console.error('Failed to save token:', e);
+      }
+    }
+  }
+
+  private setUser(user: any): void {
+    if (this.isBrowser()) {
+      try {
+        const userData = typeof user === 'string' ? JSON.parse(user) : user;
+        localStorage.setItem('user', JSON.stringify(userData));
+      } catch (e) {
+        console.error('Failed to save user:', e);
+      }
+    }
+  }
+
   getUser(): any {
     if (!this.isBrowser()) return null;
-    const user = localStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
+    try {
+      const userStr = localStorage.getItem('user');
+      if (!userStr) return null;
+
+      let parsed = JSON.parse(userStr);
+
+      // Handle double-stringified data
+      if (typeof parsed === 'string') {
+        parsed = JSON.parse(parsed);
+      }
+
+      return parsed;
+    } catch (e) {
+      console.error('Failed to get user:', e);
+      return null;
+    }
   }
 
   getToken(): string | null {
-    return this.isBrowser() ? localStorage.getItem(this.tokenKey) : null;
+    if (!this.isBrowser()) return null;
+    return localStorage.getItem(this.tokenKey);
+  }
+
+  isLoggedIn(): Observable<boolean> {
+    return this.loggedIn.asObservable();
   }
 
   logout(): void {

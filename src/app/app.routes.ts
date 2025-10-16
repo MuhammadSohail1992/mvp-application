@@ -12,7 +12,9 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'discover', pathMatch: 'full' },
       { path: 'discover', component: Discover },
-      { path: 'profile', component: Profile },
+      // { path: 'profile/me/', component: Profile },
+      { path: 'profile/me/releases', component: Profile },
+      { path: 'profile/me', component: Profile },
     ],
   },
 ];

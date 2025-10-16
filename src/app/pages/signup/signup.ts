@@ -2,11 +2,21 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+
+// ✅ Standalone PrimeNG components
 import { FloatLabel } from 'primeng/floatlabel';
 import { InputText } from 'primeng/inputtext';
 import { Password } from 'primeng/password';
 import { Button } from 'primeng/button';
-// import { DropdownModule } from 'primeng/dropdown';
+
+// import { PhoneInputComponent } from '../../shared/phone-input/phone-input';
+import { PhoneInputComponent } from '../../shared/phone-input/phone-input';
+
+interface CountryCode {
+  label: string;
+  value: string;
+  flag: string;
+}
 
 @Component({
   selector: 'app-signup',
@@ -17,22 +27,26 @@ import { Button } from 'primeng/button';
     RouterLink,
     FloatLabel,
     InputText,
-    Password
+    Password,
+    // Button,
+    PhoneInputComponent,
   ],
   templateUrl: './signup.html',
-  styleUrl: './signup.scss',
+  styleUrls: ['./signup.scss'], // ✅ correct key
 })
 export class Signup {
+  // 🧩 Form fields
   firstName: string = '';
   lastName: string = '';
   email: string = '';
   confirmEmail: string = '';
   phone: string = '';
   password: string = '';
-  userType: string = 'artist';
+  userType: 'artist' | 'promoter' | 'listener' = 'artist';
   countryCode: string = '+1';
 
-  countryCodes = [
+  // 🌍 Country list (typed)
+  countryCodes: CountryCode[] = [
     { label: 'United States (+1)', value: '+1', flag: '🇺🇸' },
     { label: 'United Kingdom (+44)', value: '+44', flag: '🇬🇧' },
     { label: 'Pakistan (+92)', value: '+92', flag: '🇵🇰' },
@@ -40,8 +54,17 @@ export class Signup {
     { label: 'Canada (+1)', value: '+1', flag: '🇨🇦' },
   ];
 
-  onSignUp() {
-    console.log('Sign up with:', {
+  phoneError: string = '';
+
+  // ✅ Typed method
+  onPhoneChanged(value: string): void {
+    console.log('Full phone number:', value);
+    this.phoneError = value.length < 5 ? 'Please enter a valid number' : '';
+  }
+
+  // ✅ Typed signup handler
+  onSignUp(): void {
+    const signupData = {
       firstName: this.firstName,
       lastName: this.lastName,
       email: this.email,
@@ -50,7 +73,9 @@ export class Signup {
       password: this.password,
       userType: this.userType,
       countryCode: this.countryCode,
-    });
-    // Add your signup logic here
+    };
+
+    console.log('Sign up with:', signupData);
+    // TODO: Add your signup logic here
   }
 }

@@ -1,0 +1,267 @@
+<div class="fixed inset-0 bg-black/70 edit-profile-window" (click)="close.emit()">
+  <div
+    class="fixed bottom-0 left-0 w-full h-screen bg-[#1a1a1a] animate-slide-up overflow-y-auto p-6"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="flex items-center justify-between p-6 border-b border-gray-700">
+      <h2 class="text-white text-2xl font-semibold">Edit Profile</h2>
+      <button (click)="close.emit()" class="text-gray-400 hover:text-white">
+        <i class="pi pi-times text-xl"></i>
+      </button>
+    </div>
+    <div class="p-6">
+      <form class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Left Column -->
+        <div class="space-y-6">
+          <!-- Contact Info Section -->
+          <div class="card rounded-xl bg-[#2d2d2d] p-6">
+            <h3 class="text-white text-lg font-semibold mb-5 pb-3">Contact Info</h3>
+
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <!-- First Name -->
+              <p-floatlabel class="mb-4">
+                <input
+                  pInputText
+                  id="firstName"
+                  [(ngModel)]="firstName"
+                  name="firstName"
+                  class="w-full bg-[#1a1a1a] border border-gray-600 text-white p-3 rounded"
+                />
+                <label for="firstName" class="">First Name *</label>
+              </p-floatlabel>
+
+              <!-- Last Name -->
+              <p-floatlabel class="mb-4">
+                <input
+                  pInputText
+                  id="lastName"
+                  [(ngModel)]="lastName"
+                  name="lastName"
+                  class="w-full bg-[#1a1a1a] border border-gray-600 text-white p-3 rounded"
+                />
+                <label for="lastName" class="">Last Name *</label>
+              </p-floatlabel>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-8">
+              <p-floatlabel class="mb-4">
+                <input
+                  pInputText
+                  id="email"
+                  [(ngModel)]="email"
+                  name="email"
+                  type="email"
+                  class="w-full bg-[#1a1a1a] border border-gray-600 text-white p-3 rounded"
+                />
+                <label for="email" class="">Email *</label>
+              </p-floatlabel>
+            </div>
+
+            <!-- Phone Number (Your custom component) -->
+            <!-- <div class="mb-4">
+              <app-phone-input [(value)]="phoneNumber" [label]="'Phone Number *'"></app-phone-input>
+            </div> -->
+
+            <!-- Artist Name, DOB, Gender Row -->
+            <div class="grid grid-cols-3 gap-4">
+              <!-- Artist Name -->
+              <p-floatlabel>
+                <input
+                  pInputText
+                  id="artistName"
+                  [(ngModel)]="artistName"
+                  name="artistName"
+                  class="w-full bg-[#1a1a1a] border border-gray-600 text-white p-3 rounded"
+                />
+                <label for="artistName" class="">Artist Name *</label>
+              </p-floatlabel>
+
+              <!-- Date of Birth -->
+              <p-floatlabel>
+                <p-datepicker
+                  inputId="dob"
+                  [(ngModel)]="dateOfBirth"
+                  name="dob"
+                  dateFormat="dd/mm/yy"
+                  [showIcon]="false"
+                  styleClass="w-full"
+                  inputStyleClass="w-full bg-[#1a1a1a] border border-gray-600 text-white p-3 rounded"
+                />
+                <label for="dob" class="">Date Of Birth *</label>
+              </p-floatlabel>
+
+              <!-- Gender -->
+              <p-floatlabel>
+                <p-select
+                  inputId="gender"
+                  [(ngModel)]="gender"
+                  name="gender"
+                  [options]="genderOptions"
+                  styleClass="w-full"
+                  class="w-full"
+                />
+                <label for="gender" class="">Gender *</label>
+              </p-floatlabel>
+            </div>
+          </div>
+
+          <!-- Music Preferences Section -->
+          <div class="card rounded-xl bg-[#2d2d2d] p-6">
+            <h3 class="text-white text-lg font-semibold mb-4">Music Preferences</h3>
+
+            <!-- Which Genres Do You Produce -->
+            <!-- Which Genres Do You Produce -->
+            <div class="mb-8">
+              <label class="text-sm mb-2 block">Which Genres Do You Produce</label>
+              <p-multiselect
+                [(ngModel)]="selectedGenres"
+                name="genres"
+                [options]="genreOptions"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Select Genres"
+                display="chip"
+                styleClass="w-full"
+                class="w-full"
+              />
+            </div>
+
+            <!-- Artist Type -->
+            <div class="mb-8">
+              <p-floatlabel>
+                <p-select
+                  inputId="artistType"
+                  [(ngModel)]="artistType"
+                  name="artistType"
+                  [options]="artistTypeOptions"
+                  styleClass="w-full"
+                />
+                <label for="artistType" class="">Artist Type *</label>
+              </p-floatlabel>
+            </div>
+
+            <!-- Influenced By -->
+            <div class="mb-4">
+              <p-floatlabel>
+                <input
+                  pInputText
+                  id="influencedBy"
+                  [(ngModel)]="influencedBy"
+                  name="influencedBy"
+                  class="w-full bg-[#1a1a1a] border border-gray-600 text-white p-3 rounded"
+                />
+                <label for="influencedBy" class="">Influenced By</label>
+              </p-floatlabel>
+            </div>
+
+            <!-- Profile Intro -->
+            <div>
+              <label class="text- text-sm mb-2 block">Profile Intro *</label>
+              <p-editor
+                [(ngModel)]="profileIntro"
+                name="profileIntro"
+                [style]="{ height: '200px' }"
+                styleClass="bg-[#1a1a1a]"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Address Info Section -->
+          <div class="card rounded-xl bg-[#2d2d2d] p-6">
+            <h3 class="text-white text-lg font-semibold mb-5 pb-3">Address Info</h3>
+
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <!-- Country -->
+              <p-floatlabel>
+                <p-select
+                  inputId="country"
+                  [(ngModel)]="country"
+                  name="country"
+                  [options]="countryOptions"
+                  styleClass="w-full"
+                  (onChange)="onCountryChange()"
+                />
+                <label for="country" class="text-gray-400">Country *</label>
+              </p-floatlabel>
+
+              <!-- State -->
+              <p-floatlabel>
+                <p-select
+                  inputId="state"
+                  [(ngModel)]="state"
+                  name="state"
+                  [options]="stateOptions"
+                  styleClass="w-full"
+                />
+                <label for="state" class="text-gray-400">State *</label>
+              </p-floatlabel>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <!-- City -->
+              <p-floatlabel>
+                <p-select
+                  inputId="city"
+                  [(ngModel)]="city"
+                  name="city"
+                  [options]="cityOptions"
+                  styleClass="w-full"
+                />
+                <label for="city" class="text-gray-400">City</label>
+              </p-floatlabel>
+
+              <!-- Street -->
+              <p-floatlabel>
+                <input
+                  pInputText
+                  id="street"
+                  [(ngModel)]="street"
+                  name="street"
+                  class="w-full bg-[#1a1a1a] border border-gray-600 text-white p-3 rounded"
+                />
+                <label for="street" class="text-gray-400">Street</label>
+              </p-floatlabel>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <!-- ZIP Code -->
+              <p-floatlabel>
+                <input
+                  pInputText
+                  id="zipCode"
+                  [(ngModel)]="zipCode"
+                  name="zipCode"
+                  class="w-full bg-[#1a1a1a] border border-gray-600 text-white p-3 rounded"
+                />
+                <label for="zipCode" class="text-gray-400">ZIP Code</label>
+              </p-floatlabel>
+
+              <!-- PO Box -->
+              <p-floatlabel>
+                <input
+                  pInputText
+                  id="poBox"
+                  [(ngModel)]="poBox"
+                  name="poBox"
+                  class="w-full bg-[#1a1a1a] border border-gray-600 text-white p-3 rounded"
+                />
+                <label for="poBox" class="text-gray-400">PO Box</label>
+              </p-floatlabel>
+            </div>
+          </div>
+        </div>
+
+        <div class="">
+          <button
+            class="flex items-center w-auto bg-teal-500 hover:bg-teal-600 px-6 py-2 rounded-full font-semibold text-sm transition color-[#000000]"
+          >
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

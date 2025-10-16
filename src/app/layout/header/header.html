@@ -25,18 +25,18 @@
         <!-- Notification bell -->
         <div (click)="notifMenu.toggle($event)" class="cursor-pointer relative mx-5">
           <i class="pi pi-bell text-neutral-500" style="font-size: 1.3rem"></i>
-          <span
+          <!-- <span
             class="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full"
           >
             3
-          </span>
+          </span> -->
         </div>
       </div>
 
       <!-- Profile -->
       <div class="flex items-center gap-2 cursor-pointer" (mouseenter)="profileMenu.toggle($event)">
         <p-avatar
-          image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+          image={{profileImageSrc}}
           shape="circle"
         />
         <div class="hidden sm:block">

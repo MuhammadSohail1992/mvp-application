@@ -68,42 +68,11 @@
       </p-floatlabel>
 
       <!-- Phone Number -->
-      <!-- <div class="flex gap-2">
-        <p-dropdown
-          [(ngModel)]="countryCode"
-          name="countryCode"
-          [options]="countryCodes"
-          optionLabel="label"
-          optionValue="value"
-          styleClass="country-dropdown"
-          class="w-32"
-        >
-          <ng-template pTemplate="selectedItem" let-option>
-            <div class="flex items-center gap-2">
-              <span>{{ option.flag }}</span>
-              <span>{{ option.value }}</span>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="item" let-option>
-            <div class="flex items-center gap-2">
-              <span>{{ option.flag }}</span>
-              <span>{{ option.label }}</span>
-            </div>
-          </ng-template>
-        </p-dropdown>
-
-        <p-floatlabel class="flex-1">
-          <input
-            pInputText
-            id="phone"
-            [(ngModel)]="phone"
-            name="phone"
-            type="tel"
-            class="w-full bg-[#2a2a2a] border-none text-white p-3 rounded"
-          />
-          <label for="phone" class="text-gray-400">Phone Number*</label>
-        </p-floatlabel>
-      </div> -->
+      <app-phone-input
+        placeholder="Enter your number"
+        [error]="phoneError"
+        (phoneChange)="onPhoneChanged($event)"
+      ></app-phone-input>
 
       <!-- Password -->
       <p-floatlabel>

@@ -22,8 +22,8 @@ export class Login {
 
   onLogin() {
     this.auth.login({ email: this.email, password: this.password }).subscribe({
-      next: (res) => {
-        console.log('Login success:', res);
+      next: (response) => {
+        console.log('Login successful:', response);
         this.router.navigate(['/discover']);
       },
       error: (err) => {
@@ -31,9 +31,4 @@ export class Login {
       },
     });
   }
-
-  // onSignIn() {
-  //   console.log('Sign in with:', this.email, this.password);
-  //   // Add your authentication logic here
-  // }
 }
