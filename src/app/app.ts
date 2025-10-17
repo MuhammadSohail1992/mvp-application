@@ -12,12 +12,18 @@ import { LoginApi } from './services/login-api';
 export class App {
   protected readonly title = signal('mvp-application');
 
-  constructor(private auth: LoginApi) {
-    // Optional: subscribe if you want to react to user state globally
-    this.auth.user$.subscribe((user) => {
-      if (user) {
-        console.log('User restored:', user);
-      }
-    });
+  constructor(private auth: LoginApi) {}
+
+  ngOnInit() {
+    this.auth.restoreSession();
   }
+
+  // constructor(private auth: LoginApi) {
+  //   // Optional: subscribe if you want to react to user state globally
+  //   this.auth.user$.subscribe((user) => {
+  //     if (user) {
+  //       console.log('User restored:', user);
+  //     }
+  //   });
+  // }
 }

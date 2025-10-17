@@ -15,18 +15,22 @@ export class LoginApi {
   /** ✅ Global BehaviorSubjects */
   private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
   private tokenSubject = new BehaviorSubject<string | null>(this.getTokenFromStorage());
+  private loggedIn = new BehaviorSubject<boolean>(!!this.getTokenFromStorage());
 
-  /** ✅ Public Observables for global use */
+  /** ✅ Public Observables */
   user$ = this.userSubject.asObservable();
   token$ = this.tokenSubject.asObservable();
+  loggedIn$ = this.loggedIn.asObservable();
 
-  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {
+    console.log('🔑 Loaded token from storage:', this.getTokenFromStorage());
+  }
 
   private isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
   }
 
-  /** 🔹 Login and set user/token globally */
+  /** 🔹 Login and store token/user globally */
   login(credentials: { email: string; password: string }): Observable<any> {
     return this.http.post(`${this.baseUrl}/signIn`, credentials).pipe(
       switchMap((res: any) => {
@@ -36,7 +40,7 @@ export class LoginApi {
         this.setToken(token);
 
         const headers = new HttpHeaders({
-          Authorization: token, // No Bearer here — your API doesn’t use it
+          Authorization: token, // ✅ API expects token without "Bearer"
         });
 
         return this.http.get(`${this.baseUrl}/me`, { headers }).pipe(
@@ -44,10 +48,10 @@ export class LoginApi {
             const user = userData?.data || userData;
             this.setUser(user);
           }),
-          switchMap((userData) => of({ token: token, user: userData?.data || userData })),
+          switchMap((userData) => of({ token, user: userData?.data || userData })),
           catchError((err) => {
             console.error('Error fetching /me:', err);
-            return of({ token: token, user: null });
+            return of({ token, user: null });
           })
         );
       }),
@@ -58,33 +62,41 @@ export class LoginApi {
     );
   }
 
-  /** 🔹 Save token + emit globally */
+  /** 🔹 Save token and emit globally */
   private setToken(token: string): void {
-    if (this.isBrowser()) {
-      localStorage.setItem(this.tokenKey, token);
+    if (this.isBrowser() && token) {
+      try {
+        localStorage.setItem(this.tokenKey, token);
+      } catch (e) {
+        console.error('Failed to save token:', e);
+      }
     }
     this.tokenSubject.next(token);
+    this.loggedIn.next(true);
   }
 
-  /** 🔹 Save user + emit globally */
+  /** 🔹 Save user and emit globally */
   private setUser(user: any): void {
-    if (this.isBrowser()) {
-      localStorage.setItem(this.userKey, JSON.stringify(user));
+    if (this.isBrowser() && user) {
+      try {
+        localStorage.setItem(this.userKey, JSON.stringify(user));
+      } catch (e) {
+        console.error('Failed to save user:', e);
+      }
     }
     this.userSubject.next(user);
   }
 
-  /** 🔹 Get current user snapshot */
+  /** 🔹 Get snapshots */
   get currentUser(): any {
     return this.userSubject.value;
   }
 
-  /** 🔹 Get current token snapshot */
   get currentToken(): string | null {
     return this.tokenSubject.value;
   }
 
-  /** 🔹 Logout globally */
+  /** 🔹 Logout and clear all */
   logout(): void {
     if (this.isBrowser()) {
       localStorage.removeItem(this.tokenKey);
@@ -92,6 +104,7 @@ export class LoginApi {
     }
     this.userSubject.next(null);
     this.tokenSubject.next(null);
+    this.loggedIn.next(false);
   }
 
   /** 🔹 LocalStorage helpers */
@@ -106,8 +119,54 @@ export class LoginApi {
   }
 
   private getTokenFromStorage(): string | null {
-    if (!this.isBrowser()) return null;
-    return localStorage.getItem(this.tokenKey);
+    try {
+      if (!this.isBrowser()) return null;
+      const token = localStorage.getItem(this.tokenKey);
+      // ✅ prevent 'undefined' or 'null' strings
+      return token && token !== 'undefined' && token !== 'null' ? token : null;
+    } catch {
+      return null;
+    }
+  }
+
+  /** 🔹 Update user everywhere */
+  updateUserProfile(newUser: any): void {
+    const updated = { ...(newUser?.data || newUser) };
+
+    if (this.isBrowser()) {
+      try {
+        localStorage.setItem(this.userKey, JSON.stringify(updated));
+      } catch (e) {
+        console.error('Failed to update user:', e);
+      }
+    }
+
+    this.userSubject.next({ ...updated });
+  }
+
+  /** 🔹 Restore user from token on app reload */
+  restoreSession(): void {
+    const token = this.getTokenFromStorage();
+
+    if (!token || !this.isBrowser()) return;
+
+    // ✅ Skip if user already loaded
+    if (this.userSubject.value) return;
+
+    const headers = new HttpHeaders({ Authorization: token });
+
+    this.http.get(`${this.baseUrl}/me`, { headers }).subscribe({
+      next: (user: any) => {
+        const userData = user?.data || user;
+        this.updateUserProfile(userData);
+        this.loggedIn.next(true);
+        console.log('🔁 Session restored from token:', userData);
+      },
+      error: (err) => {
+        console.warn('Session restore failed:', err);
+        this.logout(); // optional: clear invalid token
+      },
+    });
   }
 }
 

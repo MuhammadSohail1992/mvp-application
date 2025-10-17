@@ -107,8 +107,14 @@ export class EditProfile implements OnInit {
   constructor(private profileService: ProfileService) {}
 
   ngOnInit() {
-    console.log('User received in edit profile:', this.user);
-    this.populateForm(this.user);
+    // console.log('User received in edit profile:', this.user);
+    // this.populateForm(this.user);
+    this.profileService.user$.subscribe((user) => {
+      if (user) {
+        this.user = user;
+        this.populateForm(user);
+      }
+    });
   }
 
   private populateForm(user: any) {
@@ -163,14 +169,36 @@ export class EditProfile implements OnInit {
     this.profileService.updateProfile(updatedProfile).subscribe({
       next: (freshUser: any) => {
         console.log('Profile updated and refreshed:', freshUser);
-        this.user = freshUser;
-        this.populateForm(freshUser);
-        this.closeModal();
+        this.profileService.updateUserLocally(freshUser);
       },
+      // next: (freshUser: any) => {
+      //   console.log('Profile updated and refreshed:', freshUser);
+
+      //   // ✅ Update global user state here after backend confirms
+      //   this.profileService.updateUserLocally(freshUser);
+      //   // this.auth.updateUserProfile(freshUser);
+
+      //   // Update form & UI
+      //   this.user = freshUser;
+      //   this.populateForm(freshUser);
+      //   this.closeModal();
+      // },
       error: (err: any) => {
         console.error('Error updating profile:', err);
       },
     });
+
+    // this.profileService.updateProfile(updatedProfile).subscribe({
+    //   next: (freshUser: any) => {
+    //     console.log('Profile updated and refreshed:', freshUser);
+    //     this.user = freshUser;
+    //     this.populateForm(freshUser);
+    //     this.closeModal();
+    //   },
+    //   error: (err: any) => {
+    //     console.error('Error updating profile:', err);
+    //   },
+    // });
   }
 
   onPhoneReceived(phone: string) {

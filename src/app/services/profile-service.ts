@@ -1,24 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
+import { LoginApi } from './login-api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileService {
   private apiUrl = 'https://api.totalindie.com/api/v1/auth';
-  private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
+  // private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private loginApi: LoginApi) {}
 
   /** 🔹 Get current user as observable (auto updates across components) */
+  // get user$(): Observable<any> {
+  //   return this.userSubject.asObservable();
+  // }
+
+  // /** 🔹 Get current user snapshot */
+  // get currentUser(): any {
+  //   return this.userSubject.value;
+  // }
+
   get user$(): Observable<any> {
-    return this.userSubject.asObservable();
+    return this.loginApi.user$;
   }
 
-  /** 🔹 Get current user snapshot */
   get currentUser(): any {
-    return this.userSubject.value;
+    return this.loginApi.currentUser;
   }
 
   /** 🔹 Update user profile, then refetch latest data and sync everything */
@@ -74,11 +83,25 @@ export class ProfileService {
 
   /** 🔹 Save user to localStorage and emit to all subscribers */
   private setUserToStorage(user: any): void {
-    try {
-      localStorage.setItem('user', JSON.stringify(user));
-      this.userSubject.next(user);
-    } catch (e) {
-      console.error('Failed to save user:', e);
-    }
+    this.loginApi.updateUserProfile(user);
   }
+
+  updateUserLocally(user: any): void {
+    this.loginApi.updateUserProfile(user);
+  }
+
+  // updateUserLocally(partial: any): void {
+  //   const current = this.loginApi.currentUser || {};
+  //   const updated = { ...current, ...partial };
+  //   this.loginApi.updateUserProfile(updated);
+  // }
+
+  // private setUserToStorage(user: any): void {
+  //   try {
+  //     localStorage.setItem('user', JSON.stringify(user));
+  //     this.userSubject.next(user);
+  //   } catch (e) {
+  //     console.error('Failed to save user:', e);
+  //   }
+  // }
 }

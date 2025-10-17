@@ -28,7 +28,13 @@ export class Profile {
 
   ngOnInit() {
     // Subscribe to user$ from LoginApi
+    // this.userSub = this.auth.user$.subscribe((userData) => {
+    //   this.user = userData;
+    //   this.updateProfileData(userData);
+    // });
     this.userSub = this.auth.user$.subscribe((userData) => {
+      // if (!userData) return;
+      console.log('🔥 Updated user received in profile:', userData);
       this.user = userData;
       this.updateProfileData(userData);
     });
