@@ -46,7 +46,7 @@
             <div class="grid grid-cols-2 gap-4">
               <!-- Email -->
               <div class="mb-8">
-                <p-floatlabel class="mb-4">
+                <p-floatlabel>
                   <input
                     pInputText
                     id="email"
@@ -60,8 +60,14 @@
               </div>
 
               <!-- Phone Number (Your custom component) -->
-              <div class="mb-4">
-                <app-phone-input></app-phone-input>
+              <div class="-mt-5">
+                <!-- <app-phone-input></app-phone-input> -->
+                <app-phone-input
+                  label="Phone Number"
+                  [value]="phoneNumber"
+                  placeholder="Enter your phone"
+                  (phoneChange)="onPhoneReceived($event)"
+                ></app-phone-input>
               </div>
             </div>
 
@@ -124,8 +130,11 @@
                 optionValue="value"
                 placeholder="Select Genres"
                 display="chip"
+                [maxSelectedLabels]="10"
+                [selectedItemsLabel]="''"
                 styleClass="w-full"
                 class="w-full"
+                [showToggleAll]="false"
               />
             </div>
 
@@ -175,7 +184,7 @@
           <div class="card rounded-xl bg-[#2d2d2d] p-6">
             <h3 class="text-white text-lg font-semibold mb-5 pb-3">Address Info</h3>
 
-            <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="grid grid-cols-2 gap-4 mb-7">
               <!-- Country -->
               <p-floatlabel>
                 <p-select
@@ -186,7 +195,7 @@
                   styleClass="w-full"
                   (onChange)="onCountryChange()"
                 />
-                <label for="country" class="text-gray-400">Country *</label>
+                <label for="country" class="">Country *</label>
               </p-floatlabel>
 
               <!-- State -->
@@ -198,11 +207,11 @@
                   [options]="stateOptions"
                   styleClass="w-full"
                 />
-                <label for="state" class="text-gray-400">State *</label>
+                <label for="state" class="">State *</label>
               </p-floatlabel>
             </div>
 
-            <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="grid grid-cols-2 gap-4 mb-7">
               <!-- City -->
               <p-floatlabel>
                 <p-select
@@ -212,7 +221,7 @@
                   [options]="cityOptions"
                   styleClass="w-full"
                 />
-                <label for="city" class="text-gray-400">City</label>
+                <label for="city" class="">City</label>
               </p-floatlabel>
 
               <!-- Street -->
@@ -224,7 +233,7 @@
                   name="street"
                   class="w-full bg-[#1a1a1a] border border-gray-600 text-white p-3 rounded"
                 />
-                <label for="street" class="text-gray-400">Street</label>
+                <label for="street" class="">Street</label>
               </p-floatlabel>
             </div>
 
@@ -238,7 +247,7 @@
                   name="zipCode"
                   class="w-full bg-[#1a1a1a] border border-gray-600 text-white p-3 rounded"
                 />
-                <label for="zipCode" class="text-gray-400">ZIP Code</label>
+                <label for="zipCode" class="">ZIP Code</label>
               </p-floatlabel>
 
               <!-- PO Box -->
@@ -250,7 +259,7 @@
                   name="poBox"
                   class="w-full bg-[#1a1a1a] border border-gray-600 text-white p-3 rounded"
                 />
-                <label for="poBox" class="text-gray-400">PO Box</label>
+                <label for="poBox" class="">PO Box</label>
               </p-floatlabel>
             </div>
           </div>
@@ -259,6 +268,7 @@
         <div class="">
           <button
             class="flex items-center w-auto bg-teal-500 hover:bg-teal-600 px-6 py-2 rounded-full font-semibold text-sm transition color-[#000000]"
+            (click)="saveProfile()"
           >
             Save
           </button>

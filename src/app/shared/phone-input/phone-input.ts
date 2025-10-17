@@ -10,13 +10,15 @@ interface Country {
 
 @Component({
   selector: 'app-phone-input',
-  standalone: true, // ✅ must be present
+  standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './phone-input.html', // ✅ ensure this file exists
+  templateUrl: './phone-input.html',
 })
 export class PhoneInputComponent {
+  @Input() label: string = ''; // ✅ Add this for the label
   @Input() placeholder: string = 'Enter phone number';
   @Input() error: string = '';
+  @Input() value: string = ''; // ✅ Add this for initial value
   @Output() phoneChange = new EventEmitter<string>();
 
   countries: Country[] = [
@@ -29,6 +31,19 @@ export class PhoneInputComponent {
 
   selectedCountry: Country = this.countries[0];
   phoneNumber: string = '';
+
+  ngOnInit() {
+    if (this.value) {
+      // Split the country code from value if needed
+      const country = this.countries.find((c) => this.value.startsWith(c.code));
+      if (country) {
+        this.selectedCountry = country;
+        this.phoneNumber = this.value.replace(country.code, '');
+      } else {
+        this.phoneNumber = this.value;
+      }
+    }
+  }
 
   onPhoneChange(): void {
     const fullPhone = `${this.selectedCountry.code}${this.phoneNumber}`;

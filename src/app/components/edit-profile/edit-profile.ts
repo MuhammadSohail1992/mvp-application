@@ -8,6 +8,7 @@ import { MultiSelect } from 'primeng/multiselect';
 import { DatePicker } from 'primeng/datepicker';
 import { Editor } from 'primeng/editor';
 import { PhoneInputComponent } from '../../shared/phone-input/phone-input';
+import { ProfileService } from '../../services/profile-service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -21,7 +22,7 @@ import { PhoneInputComponent } from '../../shared/phone-input/phone-input';
     MultiSelect,
     DatePicker,
     Editor,
-    PhoneInputComponent
+    PhoneInputComponent,
   ],
   templateUrl: './edit-profile.html',
   styleUrl: './edit-profile.scss',
@@ -57,9 +58,9 @@ export class EditProfile implements OnInit {
 
   // Dropdown Options
   genderOptions = [
-    { label: 'Male', value: 'Male' },
-    { label: 'Female', value: 'Female' },
-    { label: 'Other', value: 'Other' },
+    { label: 'Male', value: 'male' },
+    { label: 'Female', value: 'female' },
+    { label: 'Other', value: 'other' },
   ];
 
   genreOptions = [
@@ -72,6 +73,7 @@ export class EditProfile implements OnInit {
     { label: 'Hip Hop', value: 'Hip Hop' },
     { label: 'Electronic', value: 'Electronic' },
   ];
+
   artistTypeOptions = [
     { label: 'Band', value: 'Band' },
     { label: 'Solo Artist', value: 'Solo' },
@@ -93,93 +95,93 @@ export class EditProfile implements OnInit {
     { label: 'Balochistan', value: 'Balochistan' },
   ];
 
-  cityOptions = [{ label: 'Select City', value: '' }];
+  cityOptions = [
+    { label: 'Karachi', value: 'Karachi' },
+    { label: 'Lahore', value: 'Lahore' },
+    { label: 'Islamabad', value: 'Islamabad' },
+    { label: 'Rawalpindi', value: 'Rawalpindi' },
+    { label: 'Peshawar', value: 'Peshawar' },
+    { label: 'Quetta', value: 'Quetta' },
+  ];
+
+  constructor(private profileService: ProfileService) {}
 
   ngOnInit() {
     console.log('User received in edit profile:', this.user);
+    this.populateForm(this.user);
+  }
 
-    if (this.user) {
-      // Populate Contact Info
-      this.firstName = this.user.firstName || '';
-      this.lastName = this.user.lastName || '';
-      this.email = this.user.email || '';
-      this.phoneNumber = this.user.phone || '';
-      this.artistName = this.user.artistName || '';
-
-      // Fix: user object has 'dob' not 'dateOfBirth'
-      this.dateOfBirth = this.user.dob ? new Date(this.user.dob) : null;
-
-      // Fix: gender is lowercase in user object
-      this.gender = this.user.gender ? this.capitalizeFirst(this.user.gender) : '';
-
-      // Populate Music Preferences - map to value-only array
-      this.selectedGenres = this.user.musicSpecialization || [];
-      this.artistType = this.user.artistType || '';
-      this.influencedBy = this.user.influencedBy || '';
-      this.profileIntro = this.user.profileIntro || '';
-
-      // Populate Address Info
-      this.country = this.user.country || '';
-      this.state = this.user.state || '';
-      this.city = this.user.city || '';
-      this.street = this.user.street || '';
-      this.zipCode = this.user.zipCode || '';
-      this.poBox = this.user.pobox || '';
-
-      console.log('Form populated with:', {
-        firstName: this.firstName,
-        dateOfBirth: this.dateOfBirth,
-        gender: this.gender,
-        genres: this.selectedGenres,
-        artistType: this.artistType,
-      });
+  private populateForm(user: any) {
+    if (user) {
+      this.firstName = user.firstName || '';
+      this.lastName = user.lastName || '';
+      this.email = user.email || '';
+      this.phoneNumber = user.phone || '';
+      this.artistName = user.artistName || '';
+      this.dateOfBirth = user.dob ? new Date(user.dob) : null;
+      this.gender = user.gender || '';
+      this.selectedGenres = user.musicSpecialization || [];
+      this.artistType = user.artistType || '';
+      this.influencedBy = user.influencedBy || '';
+      this.profileIntro = user.profileIntro || '';
+      this.country = user.country || '';
+      this.state = user.state || '';
+      this.city = user.city || '';
+      this.street = user.street || '';
+      this.zipCode = user.zipCode || '';
+      this.poBox = user.pobox || '';
     }
   }
 
-  // Helper method to capitalize first letter
-  private capitalizeFirst(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  }
-
   onCountryChange() {
-    // Load states based on selected country
     console.log('Country changed to:', this.country);
-    // TODO: Fetch states from API based on country
   }
 
   saveProfile() {
     const updatedProfile = {
       firstName: this.firstName,
       lastName: this.lastName,
+      artistName: this.artistName,
       email: this.email,
       phone: this.phoneNumber,
-      artistName: this.artistName,
-      dateOfBirth: this.dateOfBirth,
-      gender: this.gender,
-      musicSpecialization: this.selectedGenres,
-      artistType: this.artistType,
-      influencedBy: this.influencedBy,
-      profileIntro: this.profileIntro,
-      country_id: this.country,
-      state_id: this.state,
+      dob: this.dateOfBirth,
       city: this.city,
+      country: this.country,
+      state: this.state,
       street: this.street,
       zipCode: this.zipCode,
       pobox: this.poBox,
+      influencedBy: this.influencedBy,
+      gender: this.gender,
+      profileIntro: this.profileIntro,
+      musicSpecialization: this.selectedGenres,
+      artistType: this.artistType,
     };
 
     console.log('Saving profile...', updatedProfile);
 
-    // TODO: Call your API service to update the profile
-    // this.profileService.updateProfile(this.user._id, updatedProfile).subscribe(...)
+    this.profileService.updateProfile(updatedProfile).subscribe({
+      next: (freshUser: any) => {
+        console.log('Profile updated and refreshed:', freshUser);
+        this.user = freshUser;
+        this.populateForm(freshUser);
+        this.closeModal();
+      },
+      error: (err: any) => {
+        console.error('Error updating profile:', err);
+      },
+    });
+  }
 
-    this.closeModal();
+  onPhoneReceived(phone: string) {
+    console.log('Phone received:', phone);
+    this.phoneNumber = phone;
   }
 
   closeModal() {
     this.isClosing = true;
     setTimeout(() => {
       this.close.emit();
-    }, 300); // Match animation duration
+    }, 300);
   }
 }
