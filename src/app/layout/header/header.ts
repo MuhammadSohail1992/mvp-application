@@ -30,6 +30,9 @@ export class Header implements OnInit, OnDestroy {
   profileItems: MenuItem[] = [];
   private userSub!: Subscription;
 
+  // Default placeholder image
+  private readonly defaultAvatar = 'https://cdn-icons-png.flaticon.com/512/149/149071.png'; 
+
   constructor(private auth: LoginApi) {}
 
   ngOnInit() {
@@ -53,7 +56,8 @@ export class Header implements OnInit, OnDestroy {
       }
 
       this.userFirstName = userData?.firstName || '';
-      this.profileImageSrc = userData?.profileImage || '';
+      // ✅ Set profile image or default avatar
+      this.profileImageSrc = userData?.profileImage || this.defaultAvatar;
 
       this.profileItems = [
         {
@@ -72,13 +76,14 @@ export class Header implements OnInit, OnDestroy {
         },
       ];
     } else {
+      // ✅ Not logged in — show default avatar
       this.profileItems = [
         { label: 'Login', routerLink: '/login' },
         { label: 'Promotion', routerLink: '/promotion' },
         { label: 'Site Pricing', routerLink: '/pricing' },
       ];
       this.userFirstName = '';
-      this.profileImageSrc = '';
+      this.profileImageSrc = this.defaultAvatar;
       this.userType = '';
     }
   }

@@ -15,88 +15,118 @@
     </h1>
 
     <!-- Signup Form -->
-    <form class="space-y-5">
-      <!-- First Name & Last Name -->
-      <div class="grid grid-cols-2 gap-4">
-        <p-floatlabel>
-          <input
-            pInputText
-            id="firstName"
-            [(ngModel)]="firstName"
-            name="firstName"
-            class="w-full bg-[#2a2a2a] border-none text-white p-3 rounded"
-          />
-          <label for="firstName" class="text-gray-400">First Name*</label>
-        </p-floatlabel>
+    <form [formGroup]="signupForm" class="space-y-8">
+      <!-- First & Last Name -->
+      <div class="grid grid-cols-2 gap-4 mb-8">
+        <!-- First Name -->
+        <div>
+          <p-floatlabel>
+            <input
+              pInputText
+              id="firstName"
+              formControlName="firstName"
+              class="w-full bg-[#2a2a2a] border-none text-white p-3 rounded"
+            />
+            <label for="firstName" class="text-gray-400">First Name*</label>
+          </p-floatlabel>
+          <div *ngIf="isInvalid('firstName')" class="text-red-400 text-sm mt-1">
+            First Name is required
+          </div>
+        </div>
 
-        <p-floatlabel>
-          <input
-            pInputText
-            id="lastName"
-            [(ngModel)]="lastName"
-            name="lastName"
-            class="w-full bg-[#2a2a2a] border-none text-white p-3 rounded"
-          />
-          <label for="lastName" class="text-gray-400">Last Name*</label>
-        </p-floatlabel>
+        <!-- Last Name -->
+        <div>
+          <p-floatlabel>
+            <input
+              pInputText
+              id="lastName"
+              formControlName="lastName"
+              class="w-full bg-[#2a2a2a] border-none text-white p-3 rounded"
+            />
+            <label for="lastName" class="text-gray-400">Last Name*</label>
+          </p-floatlabel>
+          <div *ngIf="isInvalid('lastName')" class="text-red-400 text-sm mt-1">
+            Last Name is required
+          </div>
+        </div>
       </div>
 
       <!-- Email -->
-      <p-floatlabel>
-        <input
-          pInputText
-          id="email"
-          [(ngModel)]="email"
-          name="email"
-          type="email"
-          class="w-full bg-[#2a2a2a] border-none text-white p-3 rounded"
-        />
-        <label for="email" class="text-gray-400">Email*</label>
-      </p-floatlabel>
+      <div>
+        <p-floatlabel>
+          <input
+            pInputText
+            id="email"
+            type="email"
+            formControlName="email"
+            class="w-full bg-[#2a2a2a] border-none text-white p-3 rounded"
+          />
+          <label for="email" class="text-gray-400">Email*</label>
+        </p-floatlabel>
+        <div *ngIf="isInvalid('email')" class="text-red-400 text-sm mt-1">
+          Valid email is required
+        </div>
+      </div>
 
       <!-- Confirm Email -->
-      <p-floatlabel>
-        <input
-          pInputText
-          id="confirmEmail"
-          [(ngModel)]="confirmEmail"
-          name="confirmEmail"
-          type="email"
-          class="w-full bg-[#2a2a2a] border-none text-white p-3 rounded"
-        />
-        <label for="confirmEmail" class="text-gray-400">Confirm Email*</label>
-      </p-floatlabel>
+      <div>
+        <p-floatlabel>
+          <input
+            pInputText
+            id="confirmEmail"
+            type="email"
+            formControlName="confirmEmail"
+            class="w-full bg-[#2a2a2a] border-none text-white p-3 rounded"
+          />
+          <label for="confirmEmail" class="text-gray-400">Confirm Email*</label>
+        </p-floatlabel>
+        <div
+          *ngIf="signupForm.hasError('emailMismatch') && signupForm.get('confirmEmail')?.touched"
+          class="text-red-400 text-sm mt-1"
+        >
+          Emails do not match
+        </div>
+      </div>
 
       <!-- Phone Number -->
-      <app-phone-input
-        placeholder="Enter your number"
-        [error]="phoneError"
-        (phoneChange)="onPhoneChanged($event)"
-      ></app-phone-input>
+      <div class="mb-8 text-gray-400">
+        <app-phone-input
+          label="Phone Number"
+          placeholder="Enter your number"
+          [error]="phoneError"
+          (phoneChange)="onPhoneChanged($event)"
+        ></app-phone-input>
+        <div *ngIf="isInvalid('phone')" class="text-red-400 text-sm mt-1">
+          Phone number is required
+        </div>
+      </div>
 
       <!-- Password -->
-      <p-floatlabel>
-        <p-password
-          id="password"
-          [(ngModel)]="password"
-          name="password"
-          [feedback]="false"
-          [toggleMask]="true"
-          styleClass="w-full"
-          inputStyleClass="w-full bg-[#2a2a2a] border-none text-white p-3 rounded"
-        />
-        <label for="password" class="text-gray-400">Password*</label>
-      </p-floatlabel>
+      <div>
+        <p-floatlabel>
+          <p-password
+            id="password"
+            formControlName="password"
+            [feedback]="false"
+            [toggleMask]="true"
+            styleClass="w-full"
+            inputStyleClass="w-full bg-[#2a2a2a] border-none text-white p-3 rounded"
+          ></p-password>
+          <label for="password" class="text-gray-400">Password*</label>
+        </p-floatlabel>
+        <div *ngIf="isInvalid('password')" class="text-red-400 text-sm mt-1">
+          Password must be at least 6 characters
+        </div>
+      </div>
 
-      <!-- User Type Radio Buttons -->
+      <!-- User Type -->
       <div class="flex gap-6">
         <div class="flex items-center">
           <input
             type="radio"
             id="musicArtist"
-            name="userType"
             value="artist"
-            [(ngModel)]="userType"
+            formControlName="userType"
             class="w-4 h-4 text-teal-500 bg-gray-700 border-gray-600"
           />
           <label for="musicArtist" class="ml-2 text-white">Music Artist</label>
@@ -106,9 +136,8 @@
           <input
             type="radio"
             id="promoter"
-            name="userType"
             value="promoter"
-            [(ngModel)]="userType"
+            formControlName="userType"
             class="w-4 h-4 text-teal-500 bg-gray-700 border-gray-600"
           />
           <label for="promoter" class="ml-2 text-white">Promoter</label>
@@ -118,12 +147,71 @@
           <input
             type="radio"
             id="musicLover"
-            name="userType"
             value="listener"
-            [(ngModel)]="userType"
+            formControlName="userType"
             class="w-4 h-4 text-teal-500 bg-gray-700 border-gray-600"
           />
           <label for="musicLover" class="ml-2 text-white">Music Lover (Listener | Consumer)</label>
+        </div>
+      </div>
+      <div *ngIf="isInvalid('userType')" class="text-red-400 text-sm mt-1">
+        Please select a user type
+      </div>
+
+      <!-- Conditional: Artist -->
+      <div *ngIf="signupForm.get('userType')?.value === 'artist'" class="mt-6 space-y-4">
+        <!-- Artist Type -->
+        <div>
+          <label for="artistType" class="block text-gray-400 mb-2">Select Artist Type*</label>
+          <select
+            id="artistType"
+            formControlName="artistType"
+            class="w-full bg-[#2a2a2a] border-none text-white p-3 rounded"
+          >
+            <option value="" disabled>Select artist type*</option>
+            <option value="Band">Band</option>
+            <option value="Musician">Musician</option>
+            <option value="Vocalist">Vocalist</option>
+            <option value="Producer">Producer</option>
+            <option value="Dj">DJ</option>
+          </select>
+          <div *ngIf="isInvalid('artistType')" class="text-red-400 text-sm mt-1">
+            Artist type is required
+          </div>
+        </div>
+
+        <!-- Artist Genres -->
+        <div>
+          <label for="artistGenres" class="block text-gray-400 mb-2">Genres You Produce*</label>
+          <p-multiSelect
+            formControlName="selectedGenres"
+            [options]="genreOptions"
+            optionLabel="label"
+            optionValue="value"
+            display="chip"
+            defaultLabel="Select genres"
+            class="w-full"
+          ></p-multiSelect>
+          <div *ngIf="isInvalid('selectedGenres')" class="text-red-400 text-sm mt-1">
+            Please select at least one genre
+          </div>
+        </div>
+      </div>
+
+      <!-- Conditional: Promoter -->
+      <div *ngIf="signupForm.get('userType')?.value === 'promoter'" class="mt-6">
+        <label for="promoterGenres" class="block text-gray-400 mb-2">Favourite Music Genres*</label>
+        <p-multiSelect
+          formControlName="selectedGenres"
+          [options]="genreOptions"
+          optionLabel="label"
+          optionValue="value"
+          display="chip"
+          defaultLabel="Select genres"
+          class="w-full"
+        ></p-multiSelect>
+        <div *ngIf="isInvalid('selectedGenres')" class="text-red-400 text-sm mt-1">
+          Please select at least one genre
         </div>
       </div>
 
@@ -134,7 +222,9 @@
         class="w-full bg-gray-700 hover:bg-gray-600 text-white py-3 rounded transition"
         (click)="onSignUp()"
         type="button"
-      ></button>
+      >
+        Sign Up
+      </button>
 
       <!-- Sign In Link -->
       <p class="text-center text-gray-400 text-sm">
@@ -151,26 +241,5 @@
         service agreement
       </p>
     </form>
-
-    <!-- Mobile App Section -->
-    <div class="mt-12 text-center">
-      <h3 class="text-white font-semibold mb-4">Mobile App Available</h3>
-      <div class="flex justify-center gap-3">
-        <a href="#" class="inline-block">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
-            alt="App Store"
-            class="h-10"
-          />
-        </a>
-        <a href="#" class="inline-block">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
-            alt="Google Play"
-            class="h-10"
-          />
-        </a>
-      </div>
-    </div>
   </div>
 </div>

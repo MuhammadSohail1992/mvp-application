@@ -5,12 +5,12 @@ import { FloatLabel } from 'primeng/floatlabel';
 import { InputText } from 'primeng/inputtext';
 import { Password } from 'primeng/password';
 import { LoginApi } from '../../services/login-api';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, FloatLabel, InputText, Password],
+  imports: [CommonModule, FormsModule, FloatLabel, InputText, Password, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
