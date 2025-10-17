@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { BadgeModule } from 'primeng/badge';
 import { AvatarModule } from 'primeng/avatar';
 import { InputTextModule } from 'primeng/inputtext';
 import { CommonModule } from '@angular/common';
-import { Ripple } from 'primeng/ripple';
 import { Menubar } from 'primeng/menubar';
 import { Menu } from 'primeng/menu';
+import { Subscription } from 'rxjs';
 import { LoginApi } from '../../services/login-api';
-import { Notification } from '../../utils/interfaces/notificationsInterface';
 
 @Component({
   selector: 'app-header',
@@ -23,21 +22,28 @@ import { Notification } from '../../utils/interfaces/notificationsInterface';
     `,
   ],
 })
-export class Header {
+export class Header implements OnInit, OnDestroy {
   user: any = null;
   userFirstName: string = '';
   userType: string = '';
   profileImageSrc: string = '';
   profileItems: MenuItem[] = [];
+  private userSub!: Subscription;
 
   constructor(private auth: LoginApi) {}
 
   ngOnInit() {
-    const userData = this.auth.getUser();
-    console.log(userData);
-    this.user = userData;
+    // Subscribe to user$ from LoginApi
+    this.userSub = this.auth.user$.subscribe((userData) => {
+      this.user = userData;
+      this.updateHeaderData(userData);
+    });
+  }
+
+  private updateHeaderData(userData: any) {
     if (userData) {
       const formattedName = `${userData.firstName}-${userData.lastName}`.replace(/\s+/g, '-');
+
       if (userData?.isArtist) {
         this.userType = 'Artist';
       } else if (userData?.isPromoter) {
@@ -45,8 +51,10 @@ export class Header {
       } else {
         this.userType = 'Music Lover';
       }
+
       this.userFirstName = userData?.firstName || '';
       this.profileImageSrc = userData?.profileImage || '';
+
       this.profileItems = [
         {
           label: 'Profile',
@@ -56,13 +64,11 @@ export class Header {
         },
         { label: 'Promotion', routerLink: '/promotion' },
         { label: 'Site Pricing', routerLink: '/pricing' },
-        {
-          separator: true,
-        },
+        { separator: true },
         {
           label: 'Logout',
           icon: 'pi pi-sign-out',
-          command: () => {},
+          command: () => this.logout(),
         },
       ];
     } else {
@@ -71,6 +77,9 @@ export class Header {
         { label: 'Promotion', routerLink: '/promotion' },
         { label: 'Site Pricing', routerLink: '/pricing' },
       ];
+      this.userFirstName = '';
+      this.profileImageSrc = '';
+      this.userType = '';
     }
   }
 
@@ -78,15 +87,9 @@ export class Header {
     this.auth.logout();
   }
 
-  // get profileLink(): string {
-  //   if (!this.user) return '/login';
-
-  //   const nameParam = `${this.user.firstName || ''}-${this.user.lastName || ''}`
-  //     .trim()
-  //     .replace(/\s+/g, '-'); // replace spaces with dashes
-
-  //   return `/profile/me/releases?name=${nameParam}`;
-  // }
+  ngOnDestroy() {
+    if (this.userSub) this.userSub.unsubscribe();
+  }
 
   notificationItems: MenuItem[] = [
     {

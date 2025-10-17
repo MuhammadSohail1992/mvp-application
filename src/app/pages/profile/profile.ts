@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Card } from 'primeng/card';
 import { LoginApi } from '../../services/login-api';
 import { EditProfile } from '../../components/edit-profile/edit-profile';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -21,11 +22,20 @@ export class Profile {
   activeIndex: number = 0;
   tabs: { title: string; value: number; content: string }[] = [];
   isEditOpen = false;
+  private userSub!: Subscription;
 
   constructor(private auth: LoginApi) {}
 
   ngOnInit() {
-    const userData = this.auth.getUser();
+    // Subscribe to user$ from LoginApi
+    this.userSub = this.auth.user$.subscribe((userData) => {
+      this.user = userData;
+      this.updateProfileData(userData);
+    });
+  }
+
+  private updateProfileData(userData: any) {
+    // const userData = this.auth.getUser();
     console.log('Raw userData:', userData);
     if (userData) {
       this.user = userData;

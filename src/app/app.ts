@@ -13,8 +13,11 @@ export class App {
   protected readonly title = signal('mvp-application');
 
   constructor(private auth: LoginApi) {
-    if (this.auth.getToken()) {
-      console.log('User already logged in');
-    }
+    // Optional: subscribe if you want to react to user state globally
+    this.auth.user$.subscribe((user) => {
+      if (user) {
+        console.log('User restored:', user);
+      }
+    });
   }
 }
