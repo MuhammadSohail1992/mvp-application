@@ -1,3 +1,18 @@
+<!-- <section class="w-full">
+  <img
+    src="https://totalindie.com/assets/images/welcome-poster-totalindie.png"
+    alt="Welcome to Total Indie"
+    class="w-full h-auto object-cover rounded-2xl"
+  />
+</section> -->
+<!-- Loop through albums -->
+<!-- <app-album-section
+  *ngFor="let album of albums"
+  [sectionTitle]="album.title"
+  [subTitle]="album.title"
+  [albums]="album.data"
+></app-album-section> -->
+
 <section class="w-full">
   <img
     src="https://totalindie.com/assets/images/welcome-poster-totalindie.png"
@@ -5,4 +20,19 @@
     class="w-full h-auto object-cover rounded-2xl"
   />
 </section>
-<app-album-section></app-album-section>
+
+<!-- Loop through each main section (Trending, Latest, etc.) -->
+<ng-container *ngFor="let section of discoverSections">
+  <div class="my-8">
+    <!-- Section title (Trending / Latest) -->
+    <h2 class="text-3xl font-bold text-white mb-4">{{ section.sectionTitle }}</h2>
+
+    <!-- Loop through each subsection (Singles, Albums & EP's) -->
+    <app-album-section
+      *ngFor="let sub of section.subsections"
+      [sectionTitle]="section.sectionTitle"
+      [subTitle]="sub.subTitle"
+      [albums]="sub.data"
+    ></app-album-section>
+  </div>
+</ng-container>
